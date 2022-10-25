@@ -557,6 +557,10 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.font-sans {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
@@ -568,4 +572,8 @@ video {
 
 .underline {
   text-decoration-line: underline;
+}
+
+.hover\:font-serif:hover {
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 }

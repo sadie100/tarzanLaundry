@@ -5,13 +5,12 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="/dist/output.css" rel="stylesheet">
+
+        <h1 class="text-3xl font-bold underline">
+            {% block login %} {% endblock %}
+        </h1>
     </head>
     <body>
-        <div class="head-wrap">
-            <h1 class="text-3xl font-bold underline">
-            {% block login %} {% endblock %}
-            </h1>
-        </div>
 
         <div class="wrap">
             <h1 class="text-3xl font-bold underline">
