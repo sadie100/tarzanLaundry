@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\김세희\Desktop\모든것\repository\krafton_jungle\tarzanLaundry\.venv"
+VIRTUAL_ENV="C:\Users\remer\OneDrive\Desktop\Team4-Tarzan\tarzanLaundry\.venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
