@@ -16,7 +16,7 @@ https://itholic.github.io/python-requirements/ 참고
 
 터미널에 다음 명령어를 입력한다.
 
-pip freeze > requirements.txt
+```pip freeze > requirements.txt```
 
 그러면 requirements.txt에 패키지 버전 목록이 나열되게 된다. 이 파일을 git으로 저장할 것임
 
@@ -24,15 +24,16 @@ pip freeze > requirements.txt
 
 우선 가상환경을 따로 실행한다.
 
-py -3 -m venv .venv
-//생성
-.venv/Scripts/activate
-//활성화
+```py -3 -m venv .venv```
+-> 가상환경 생성 커맨드
 
-터미널에 다음 명령어를 입력한다.
+```.venv/Scripts/activate```
+-> 가상환경 활성화 커맨드
 
-pip install -r requirements.txt
+가상환경이 활성화되었으면 터미널에 다음 명령어를 입력한다.
+
+```pip install -r requirements.txt```
 
 그러면 모든 패키지를 한 번에 설치해준다.
 
-requirements.txt가 변경되면(누군가 커밋하면) 다른 받는 사람은 이 설치 프로세스를 실행해 준다.
+### requirements.txt가 변경되어 올라오면(누군가 커밋하면) pull 받는 사람은 이 설치 프로세스를 실행해 준다.
