@@ -1,8 +1,7 @@
 .timeTable {
   display: grid;
-  grid-template-rows: 30px 100px 100px;
+  grid-template-rows: 50px 100px 100px;
   grid-template-columns: repeat(19, 100px);
-  border: 1px solid black;
   width: calc(19 * 100px);
   align-items: center;
 }
@@ -10,36 +9,29 @@
 .timeColumn {
   grid-row-start: 1;
   grid-row-end: 2;
-  border: 1px solid red;
 }
 
 .labelColumn1 {
   grid-row-start: 2;
   grid-row-end: 3;
   grid-column-start: 1;
-  border: 1px solid blue;
 }
 
 .labelColumn2 {
   grid-row-start: 3;
   grid-row-end: 4;
   grid-column-start: 1;
-  border: 1px solid blue;
 }
 
 .timeWrapper {
-  border: 1px solid green;
+  border: 2px solid black;
   grid-column-start: 2;
   grid-column-end: 20;
   display: grid;
   grid-template-rows: repeat(2, 50px);
   grid-template-columns: repeat(36, 50px);
 }
-.reservationBox {
-  border: 1px solid pink;
-}
-.blankBox {
-  border: 1px solid white;
 
-  /* display: none; */
+.timeWrapper div:nth-child(even) {
+  border-right: 2px solid black;
 }

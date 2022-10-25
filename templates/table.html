@@ -14,25 +14,35 @@
   <body>
     <div class="timeTable text-center">
       <div class="timeColumn">시간</div>
-      {% for i in range(6,24) %}
+      {% for i in range(6,24) %} {%if now == i%}
+      <div class="timeColumn text-red-500">{{i}}시</div>
+      {% else %}
       <div class="timeColumn">{{i}}시</div>
-      {% endfor %}
+      {% endif %} {% endfor %}
       <div class="labelColumn1">오늘</div>
       <div class="timeWrapper">
         {% for time in range(6,24)%} {% for room in ['325', '326']%} {% for type
-        in ['laundry','dry']%} {% if todayReservations[0]['type'] == type and
-        todayReservations[0]['room'] == room and
-        todayReservations[0]['time']==time %}
-        <div class="reservationBox"></div>
-        {{todayReservations.popleft()}} {% else %}
-        <div class="blankBox"></div>
+        in ['laundry','dry']%} {% if {'time' : time, 'room' : room, 'type' :
+        type} in todayReservations %}
+        <div class="bg-gray-300"></div>
+        {% else %}
+        <div class="bg-white"></div>
         {% endif %} {% endfor %} {% endfor %} {% endfor %}
       </div>
       <div class="labelColumn2">내일</div>
       <div class="timeWrapper">
-        {% for i in range(0,19)%} {% for j in range(0,4)%}
-        <div class="reservationBox"></div>
-        {% endfor %} {% endfor %}
+        {% for time in range(6,24)%} {% for room in ['325', '326']%} {% for type
+        in ['laundry','dry']%} {% if {'time' : time, 'room' : room, 'type' :
+        type} in tomorrowReservations %}
+        <div class="bg-gray-300"></div>
+        {% else %}
+        <div class="bg-white cursor-pointer"></div>
+        {% endif %} {% endfor %} {% endfor %} {% endfor %}
+      </div>
+      <div
+        class="text-red-500 font-bold text-4xl col-start-2 col-end-10 text-left py-2"
+      >
+        현재 시각 : 10시 25분
       </div>
     </div>
   </body>
