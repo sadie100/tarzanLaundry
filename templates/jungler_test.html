@@ -1,21 +1,25 @@
 <!doctype html>
 <html>
     <head>
-        <!-- Required meta tags -->
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="/dist/output.css" rel="stylesheet">
-        
-        <h1 class="text-3xl font-bold underline">
-            {% block login %} {% endblock %}
-        </h1>
+        <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body>
-        <h1 class="text-3xl font-bold underline">
-            <p class="font-sans hover:font-serif">
-                sdfdsdsfdsfsdfds
-            </p>          
-        </h1>
+        <h2 class="mt-40 text-center text-3xl font-bold tracking-tight text-gray-900">회원가입 검증질문</h2>
+
+        <div class="flex flex-col min-h-full items-center justify-center m-10 h-72">
+            <div class="m-5">
+                <label class="text-center tracking-tight">Q. <타잔, 세탁을 부탁해> 개발진 중 한 명의 이름을 입력하세요.</label>
+            </div>
+            <div class="m-10">
+                <label class="text-left tracking-tight text-black ">A.</label>
+                <input type="text" class="ring-1 ring-gray-300 ring-inset form-input rounded-lg mx-1 shadow-sm focus:border-red-500 focus:ring-red-500 h-8 w-96" placeholder="Answer">    
+            </div>
+            <button class="mt-10 col-span-1 ring-1 ring-blue-400 ring-inset rounded-lg hover:bg-blue-600 bg-blue-500 shadow-lg h-8 w-32 font-bold text-white">회원가입</button>
+
+        </div>
+
     </body>
 </html>
 
