@@ -1,10 +1,27 @@
+<!-- {% extends "index.html" %}
+{% block title %}
+Title - Jungler Test
+{% endblock %}
+ -->
+
 <!doctype html>
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.tailwindcss.com">
+        </script>
+        <script>
+        tailwind.config = {
+            theme: {
+                fontFamily: {
+                'sans': '"Noto Sans"'   //폰트문제 해결 못함. Times New Roman 적용가능. 어떤건 되고 어떤건 안되고.
+                }
+            }
+        }
+        </script>
     </head>
+    <!-- {% block content %} -->
     <body>
         <h2 class="mt-40 text-center text-3xl font-bold tracking-tight text-gray-900">회원가입 검증질문</h2>
 
@@ -14,13 +31,14 @@
             </div>
             <div class="m-10">
                 <label class="text-left tracking-tight text-black ">A.</label>
-                <input type="text" class="ring-1 ring-gray-300 ring-inset form-input rounded-lg mx-1 shadow-sm focus:border-red-500 focus:ring-red-500 h-8 w-96" placeholder="Answer">    
+                <input type="text" class="ring-1 ring-gray-300 ring-inset form-input rounded-lg mx-1 shadow-sm focus:border-red-500 focus:ring-red-500 h-8 w-96" placeholder=" Answer">    
             </div>
             <button class="mt-10 col-span-1 ring-1 ring-blue-400 ring-inset rounded-lg hover:bg-blue-600 bg-blue-500 shadow-lg h-8 w-32 font-bold text-white">회원가입</button>
 
         </div>
 
     </body>
+    <!-- {% end block %} -->
 </html>
 
 
