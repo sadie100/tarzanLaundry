@@ -1,0 +1,48 @@
+{% set todayReservations = [ { type : 'laundry', room : '305', username :
+'김철수', dateTime : 7, day : 'today' }, { type : 'dry', room : '304', username
+: '홍길동', dateTime : 10, day : 'today' }, { type : 'laundry', room : '305',
+username : '홍길동', dateTime : 11, day : 'today' }, { type : 'laundry', room :
+'305', username : '김철수', dateTime : 11, day : 'today' }, { type : 'dry', room
+: '305', username : '김철수', dateTime : 11, day : 'today' }, { type :
+'laundry', room : '305', username : '김철수', dateTime : 12, day : 'today' }, {
+type : 'laundry', room : '305', username : '김철수', dateTime : 14, day :
+'today' }, { type : 'dry', room : '305', username : '김철수', dateTime : 18, day
+: 'today' }, { type : 'laundry', room : '305', username : '김철수', dateTime :
+20, day : 'today' }, { type : 'dry', room : '305', username : '김철수', dateTime
+: 22, day : 'today' }, ]%}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{url_for('static', filename='table.css')}}"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="timeTable text-center">
+      <div class="timeColumn">시간</div>
+      {% for i in range(6,24) %}
+      <div class="timeColumn">{{i}}시</div>
+      {% endfor %}
+      <div class="labelColumn1">오늘</div>
+      <div class="timeWrapper">
+        {% for time in range(6,24)%} {% for room in [325, 326]%} {% for type in
+        ['laundry','dry']%}
+        <div class="reservationBox"></div>
+        {% endfor %} {% endfor %} {% endfor %}
+      </div>
+      <div class="labelColumn2">내일</div>
+      <div class="timeWrapper">
+        {% for i in range(0,19)%} {% for j in range(0,4)%}
+        <div class="reservationBox"></div>
+        {% endfor %} {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
