@@ -38,3 +38,8 @@
 .reservationBox {
   border: 1px solid pink;
 }
+.blankBox {
+  border: 1px solid white;
+
+  /* display: none; */
+}
