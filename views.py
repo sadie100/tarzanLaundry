@@ -37,13 +37,9 @@ def home():
    ]
 
    nowtime = datetime.now()
-   now = nowtime.hour
-   minute = nowtime.minute
 
-   # nowhour = nowtime.hour
-   
 
-   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, now=now)
+   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime)
 
 if __name__ == '__main__':  
    app.run('0.0.0.0',port=5000,debug=True)
