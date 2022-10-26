@@ -38,7 +38,7 @@ jwt = JWTManager(app)
 from pymongo import MongoClient
 
 # db 이름은 laundryDB로 통일
-client = MongoClient('3.38.165.113',27017)
+client = MongoClient('mongodb://tarzan:jane@0.0.0.0',27017)
 db = client.laundryDB
 
 
@@ -305,4 +305,4 @@ if __name__ == '__main__':
    # 시크릿 키 설정이 되어있지 않으면 submit 액션에서 보안오류 발생.
    app.secret_key = "super-secret"
    # app.config['SESSION_TYPE'] = 'filesystem'
-   app.run(debug=True)
+   app.run('0.0.0.0', port=5000,debug=True)

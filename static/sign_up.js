@@ -24,7 +24,7 @@ function signupRegister(){
         (res)=>{
             console.log(res['url']);
             // 해당 도메인 입력 필
-            if(res['url'] == 'http://3.38.165.113:5000/'){
+            if(res['url'] == 'http://0.0.0.0:5000/'){
                 window.location.href = '/'
             }
             else{
