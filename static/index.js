@@ -134,15 +134,20 @@ const pick = function (time, day, reservations, loginId) {
         for(let room of ['325','326']){
             if(pickedReserve.some(({ type:etype, room:eroom, user})=>{return etype.toLowerCase() === type.toLowerCase() && eroom === room})){
                 //예약있음. 예약 불가능상태
-                //내 예약인지 아닌지 한번 확인하기
 
-                const {user} = pickedReserve.find(({ type:etype, room:eroom, user})=>{return etype.toLowerCase() === type.toLowerCase() && eroom === room});
-                if(user.toString() === loginId.toString()){
-                    document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-green-500 text-white'
-                    document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="handleCancel('${time}','${day}','${type.toLowerCase()}', '${room}')">예약 취소</button>`;
-                }else{
+                if(!loginId){
                     document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white'
                     document.getElementById(`detail${type}${room}Bottom`).innerHTML = '예약완료';
+                }else{
+                    //로그인 있으면 내 예약인지 아닌지 한번 확인하기
+                    const {user} = pickedReserve.find(({ type:etype, room:eroom})=>{return etype.toLowerCase() === type.toLowerCase() && eroom === room});
+                    if(typeof user === 'string' ? user : user.toString() === loginId.toString()){
+                        document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-green-500 text-white'
+                        document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="handleCancel('${time}','${day}','${type.toLowerCase()}', '${room}')">예약 취소</button>`;
+                    }else{
+                        document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white'
+                        document.getElementById(`detail${type}${room}Bottom`).innerHTML = '예약완료';
+                    }
                 }
                 
             }else{
