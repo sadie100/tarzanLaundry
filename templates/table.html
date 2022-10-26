@@ -38,7 +38,7 @@
             {% endfor %}
           </div>
         {% else %}
-        <div class="blockWrapper cursor-pointer" onclick="pick({{time}},'today', {{todayReservations}})" id="today-{{time}}">
+        <div class="blockWrapper cursor-pointer" onclick="pick({{time}},'today', {{todayReservations}}, {{userId}})" id="today-{{time}}">
           {% for reserve in todayReservations %}
             {% if reserve['time'] ==  time %}
               {% if reserve['type'] == 'laundry' %}
@@ -79,7 +79,7 @@
       <div class="labelColumn2">내일</div>
       <div class="timeWrapper" id="tomorrow">
         {% for time in range(6,24)%}
-        <div class="blockWrapper cursor-pointer"  onclick="pick({{time}},'tomorrow', {{tomorrowReservations}})" id="tomorrow-{{time}}">
+        <div class="blockWrapper cursor-pointer"  onclick="pick({{time}},'tomorrow', {{tomorrowReservations}}, {{userId}})" id="tomorrow-{{time}}">
           {% for type in ['laundry','dry']%}
             {% for room in ['325', '326']%}
               {%for reserve in tomorrowReservations %}
