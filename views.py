@@ -177,7 +177,7 @@ def reserve():
          return jsonify({'state':'already'})
    else :
       # 에러 뱉기
-      return jsonify({'state':'logout'})
+      return abort(401)
 
    today = date.today()
    tomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
