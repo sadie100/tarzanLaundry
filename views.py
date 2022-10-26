@@ -63,36 +63,6 @@ def get_table():
    exactTomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
    exactDat =  (datetime(today.year,today.month,today.day) + timedelta(days=2))
 
-   # data = db.reservations.aggregate([
-   #    {
-   #       '$match':{
-   #          'date':{
-   #             '$gte' : exactToday,
-   #             '$lt' : exactTomorrow
-   #          }
-   #       },
-   #    },
-   #    {
-   #       '$project':{
-   #          'user':1,
-   #          'type':1,
-   #          'room':1,
-   #          'certification':1,
-   #          'date':1,
-   #          'time':{
-   #             '$dateToString' : {
-   #                'format' : '%H',
-   #                'date' : '$date'
-   #             }
-   #          }
-   #       }
-   #    },
-   #    {
-   #       '$sort' : {
-   #          'time' : 1
-   #       }
-   #    }
-   # ])
    todayReservations = list(db.reservations.find({
       'date' : {'$gte' : exactToday, '$lt':exactTomorrow}
    },{ '_id':0, 'user':1, 'type':1, 'room':1, 'date':1}).sort([['date',1]]))
@@ -119,6 +89,7 @@ def home():
    nowtime = datetime.now()
    using = request.cookies.get('myapp_jwt')
    # 만약 로그인 했으면 해당 사용자의 id 값을 읽는다
+   
    if using :
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userName = decodeInfo['이름']
@@ -201,7 +172,7 @@ def reserve():
       userId = decodeInfo['sub']
    else :
       # 에러 뱉기
-      abort(404)
+      abort(401)
 
    today = date.today()
    tomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
@@ -221,6 +192,44 @@ def reserve():
    })
 
    return redirect(url_for('home'))
+
+@app.route('/cancel', methods=['POST'])
+def cancel():
+   time = request.get_json()['time']
+   day = request.get_json()['day']
+   type = request.get_json()['type']
+   room = request.get_json()['room']
+
+   # 토큰 값 가져옴
+   userId=False
+   using = request.cookies.get('myapp_jwt')
+   # 만약 로그인 했으면 해당 사용자의 id 값을 읽는다
+   if using :
+      decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
+      userId = decodeInfo['sub']
+   else :
+      # 에러 뱉기
+      abort(401)
+
+   today = date.today()
+   tomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
+   dateVal = date.today()
+
+   if day=='today':
+      dateVal = datetime(today.year,today.month,today.day,int(time))
+   elif day=='tomorrow':
+      dateVal = datetime(tomorrow.year,tomorrow.month,tomorrow.day,int(time))
+
+   target = db.reservations.find_one({"date" : dateVal, "user" : userId, "type" : type, "room":room})
+   if(target is None):
+      abort(404)
+   
+   db.reservations.delete_one({
+   "date" : dateVal, "user" : userId, "type" : type, "room":room
+   })
+
+   return redirect(url_for('home'))
+
 
 
 @app.route('/signup')
