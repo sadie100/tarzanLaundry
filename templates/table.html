@@ -18,9 +18,9 @@
               {%for reserve in todayReservations %}
                 {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
                   {% if time < nowtime['hour'] %}
-                  <div class="bg-gray-300"></div>
+                    <div class="bg-gray-300"></div>
                   {% else %}
-                  <div class="bg-yellow-300"></div>
+                    <div class="bg-yellow-300"></div>
                   {% endif %}
                   {%break%}
                 {% endif %}
@@ -37,15 +37,17 @@
         <div class="blockWrapper"  onclick="chechk({{time}},'tom')">
         {% for room in ['325', '326']%}
           {% for type in ['laundry','dry']%}
-            {% if {'time' : time, 'room' : room, 'type' : type} in tomorrowReservations %}
-              {%if time < nowtime.hour%}
-              <div class="bg-yellow-300"></div>
-              {% else %}
-              <div class="bg-yellow-300"></div>
+            {%for reserve in tomorrowReservations %}
+              {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
+                {% if time < nowtime['hour'] %}
+                  <div class="bg-gray-300"></div>
+                {% else %}
+                  <div class="bg-yellow-300"></div>
+                {% endif %}
+                {%break%}
               {% endif %}
-              {% else %}
-              <div class="bg-white cursor-pointer"></div>
-            {% endif %}
+            {%endfor%}
+            <div class="bg-white cursor-pointer"></div>
           {% endfor %}
         {% endfor %}
       </div>

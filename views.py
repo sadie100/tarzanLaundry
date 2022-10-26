@@ -65,8 +65,6 @@ def get_table():
 @app.route('/')
 def home():
    todayReservations, tomorrowReservations = get_table()
-   print(todayReservations)
-   print(type(todayReservations))
    # todayReservations = [
    #    { 'type' : 'laundry', 'room' : '325', 'day' : 10-29, 'time' : 7 },
    #    { 'type' : 'dry', 'room' : '326',  'time' : 10,  },
