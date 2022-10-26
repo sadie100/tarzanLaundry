@@ -93,13 +93,14 @@ def home():
    if using :
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userName = decodeInfo['이름']
-      userId = decodeInfo['sub']
 
-      today = date.today()
-      myLaundry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day)},'user': userId, 'type': 'laundry'})
-      myDry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day)},'user': userId, 'type': 'dry'})
-      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userId, userName=userName, myLaundry=myLaundry, myDry=myDry)
-   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False, userName=False,  myLaundry=False, myDry=False)
+      reservedata = db.reservations.find_one({'user':userName, 'date' : {'$gte' : nowtime}})
+      print(reservedata)
+      if(reservedata is not None):
+         return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userName, reservedata=reservedata)
+      else:   
+         return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userName)
+   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False)
 
 
 # 토큰 식별 과정 (토큰이 있어야 정상작동)
