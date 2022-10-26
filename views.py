@@ -85,10 +85,11 @@ def get_table():
    todayReservations = list(db.reservations.find({
       'date' : {'$gte' : exactToday, '$lt':exactTomorrow}
    },{ '_id':0, 'user':1, 'type':1, 'room':1, 'date':1}).sort([['date',1]]))
-
+   print("*"*10,todayReservations)
    for x in todayReservations:
       x['time'] = x['date'].hour
       del x['date']
+   print("*"*10,todayReservations)
 
    tomorrowReservations = list(db.reservations.find({
       'date' : {'$gte' : exactTomorrow, '$lt':exactDat}
@@ -105,31 +106,7 @@ def get_table():
 def home():
    todayReservations, tomorrowReservations = get_table()
    print(todayReservations)
-   # todayReservations = [
-   #    { 'type' : 'laundry', 'room' : '325', 'day' : 10-29, 'time' : 7 },
-   #    { 'type' : 'dry', 'room' : '326',  'time' : 10,  },
-   #    { 'type' : 'laundry', 'room' : '325', 'time' : 11 },
-   #    { 'type' : 'laundry', 'room' : '325','time' : 11 },
-   #    { 'type' : 'dry', 'room': '325',  'time' : 11 },
-   #    { 'type' : 'laundry', 'room' : '325',  'time' : 12 },
-   #    { 'type' : 'laundry', 'room' : '325',  'time' : 14 },
-   #    { 'type' : 'dry', 'room' : '325',  'time' : 18 },
-   #    { 'type' : 'laundry', 'room' : '325',  'time' :20 ,'id': None},
-   #    { 'type' : 'dry', 'room' : '325',  'time': 22 ,'id':'kjc0000'}
-   # ]
 
-   # tomorrowReservations = [
-   #    { 'type' : 'laundry', 'room' : '325', 'time' : 7 },
-   #    { 'type' : 'dry', 'room' : '326',  'time' : 7,  },
-   #    { 'type' : 'laundry', 'room' : '325', 'time' : 8 },
-   #    { 'type' : 'laundry', 'room' : '326','time' : 15 },
-   #    { 'type' : 'dry', 'room': '326',  'time' : 14 },
-   #    { 'type' : 'laundry', 'room' : '325',  'time' : 16 },
-   #    { 'type' : 'laundry', 'room' : '326',  'time' : 16 },
-   #    { 'type' : 'dry', 'room' : '326',  'time' : 19 },
-   #    { 'type' : 'laundry', 'room' : '325',  'time' :19 },
-   #    { 'type' : 'dry', 'room' : '325',  'time': 21 }, 
-   # ]
    nowtime = datetime.now()
    using = request.cookies.get('myapp_jwt')
    # 만약 로그인 했으면 해당 사용자의 id 값을 읽는다

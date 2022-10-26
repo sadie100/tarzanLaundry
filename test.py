@@ -1,3 +1,5 @@
-for fruit in ['apple','grape','banana']:
-    for animal in ['bear','rabbit','dog']:
-        print(fruit, animal)
+
+for i in range(6):
+    print(i)
+    if i == 3:
+        break
