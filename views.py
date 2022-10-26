@@ -55,18 +55,19 @@ def get_table():
    # ])
    todayReservations = list(db.reservations.find({
       'date' : {'$gte' : exactToday, '$lt':exactTomorrow}
-   }).sort([['time',1]]))
-
+   },{ '_id':0, 'user':1, 'type':1, 'room':1, 'date':1}).sort([['time',1]]))
 
    for x in todayReservations:
-      x['time'] = int(x['date'].hour)
+      x['time'] = x['date'].hour
+      del x['date']
 
    tomorrowReservations = list(db.reservations.find({
       'date' : {'$gte' : exactTomorrow, '$lt':exactDat}
-   }).sort([['time',1]]))
+   }, { '_id':0, 'user':1, 'type':1, 'room':1, 'date':1}).sort([['time',1]]))
 
    for x in tomorrowReservations:
       x['time'] = x['date'].hour
+      del x['date']
 
    return todayReservations,tomorrowReservations
 
@@ -75,6 +76,7 @@ def get_table():
 def home():
 
    todayReservations, tomorrowReservations = get_table()
+  
    # todayReservations = [
    #    { 'type' : 'laundry', 'room' : '325', 'day' : 10-29, 'time' : 7 },
    #    { 'type' : 'dry', 'room' : '326',  'time' : 10,  },
