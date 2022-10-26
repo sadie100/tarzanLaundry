@@ -37,7 +37,7 @@
         <div class="blockWrapper cursor-pointer" onclick="pick({{time}},'today', {{todayReservations}})" id="today-{{time}}">
           {% for reserve in todayReservations %}
             {% if reserve['time'] ==  time %}
-            <div class="bg-yellow-300 abolute mr-0">{{reserve['time']}},{{reserve['type']}},{{reserve['room']}}</div>
+            <div class="relative bg-yellow-300 abolute h-1/2 w-1/2">{{reserve['time']}},{{reserve['type']}},{{reserve['room']}}</div>
             {% endif %}
           {% endfor %}
         </div>

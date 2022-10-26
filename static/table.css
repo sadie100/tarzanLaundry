@@ -32,7 +32,9 @@
 }
 .blockWrapper {
   border: 1.5px solid black;
-  display: grid;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   grid-row-start : 1;
   grid-row-end:3;
   grid-template-rows: repeat(2, 50px);

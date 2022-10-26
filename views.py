@@ -46,6 +46,17 @@ db = client.laundryDB
 adminID = 'kjc08'
 adminPW = '0814'
 
+# 토큰 만료 시
+@jwt.expired_token_loader
+def my_expired_token_callback(jwt_header, jwt_payload):
+   print("토큰 만료")
+
+   response = make_response(redirect(url_for("home")))
+   unset_jwt_cookies(response)
+   flash('로그인 정보가 만료됐습니다. 다시 로그인 해주세요.')
+
+   return response
+
 def get_table():
    today = date.today()
    exactToday = datetime(today.year,today.month,today.day)
@@ -85,11 +96,10 @@ def get_table():
    todayReservations = list(db.reservations.find({
       'date' : {'$gte' : exactToday, '$lt':exactTomorrow}
    },{ '_id':0, 'user':1, 'type':1, 'room':1, 'date':1}).sort([['date',1]]))
-   print("*"*10,todayReservations)
+
    for x in todayReservations:
       x['time'] = x['date'].hour
       del x['date']
-   print("*"*10,todayReservations)
 
    tomorrowReservations = list(db.reservations.find({
       'date' : {'$gte' : exactTomorrow, '$lt':exactDat}
@@ -105,7 +115,6 @@ def get_table():
 @app.route('/')
 def home():
    todayReservations, tomorrowReservations = get_table()
-   print(todayReservations)
 
    nowtime = datetime.now()
    using = request.cookies.get('myapp_jwt')
@@ -245,7 +254,6 @@ def register():
          return redirect(url_for('register'))
 
       else:
-         print(db.users.find_one({'user_id':signup_id}))
          if db.users.find_one({'user_id':signup_id}) == None:
             # 아이디 중복값
 
