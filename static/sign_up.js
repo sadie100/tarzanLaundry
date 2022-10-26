@@ -23,9 +23,9 @@ function signupRegister(){
     })
 
         
-    // .then(()=>{
-    //     window.location.href = '/'; // 새로고침
-    // })
+    .then(()=>{
+        window.location.href = '/signup'; // 새로고침
+    })
     .catch((error) => {
         console.log(error)
     });
