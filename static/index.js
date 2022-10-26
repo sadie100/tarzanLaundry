@@ -1,12 +1,11 @@
-let flag = false;
-
+// 예약
 const handleReserve = (time, day, type, room) => {
     fetch('/reserve',{
         method : 'POST',
         headers: {
             'Content-Type': 'application/json',
             // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
+        },
         body : JSON.stringify({
             time, day, type, room
         })
@@ -15,8 +14,35 @@ const handleReserve = (time, day, type, room) => {
         if(res.status===200){
             alert('예약이 완료되었습니다.');
             window.location.reload()
-        }else if(res.status===404){
+        }else if(res.status===401){
             return alert('로그인 정보가 없습니다. 로그인을 해 주세요.')
+        }
+    }).catch((e)=>{
+        console.log(e);
+        alert('에러가 일어났습니다.')
+    })
+}
+
+// 예약 취소
+const handleCancel = (time, day, type, room) => {
+    if(!window.confirm('예약을 정말 취소하시겠습니까?')) return;
+
+    fetch('/cancel',{
+        method : 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+          },
+        body : JSON.stringify({
+            time, day, type, room
+        })
+    }).then((res)=>{
+        if(res.status===200){
+            alert('예약 취소가 완료되었습니다.');
+            window.location.reload()
+        }else if(res.status===401){
+            return alert('로그인 정보가 없습니다. 로그인을 해 주세요.')
+        }else if(res.status === 404){
+            return alert('예약 정보가 없습니다.')
         }
     }).catch((e)=>{
         console.log(e);
@@ -26,7 +52,7 @@ const handleReserve = (time, day, type, room) => {
 
 
 // 시간 블럭 선택했을 때 함수
-const pick = function (time, day, reservations) {
+const pick = function (time, day, reservations, loginId) {
     //picked를 갖고 있는 엘리먼트의 전체 클래스 반환
     const beforeClass = document.getElementsByClassName('picked');
 
@@ -106,10 +132,19 @@ const pick = function (time, day, reservations) {
     //pickedReserve에 없는 애는 예약하기 버튼 살려야 함
     for(let type of ['Laundry','Dry']){
         for(let room of ['325','326']){
-            if(pickedReserve.some(({type:etype,room:eroom})=>{return etype.toLowerCase() === type.toLowerCase() && eroom === room})){
+            if(pickedReserve.some(({ type:etype, room:eroom, user})=>{return etype.toLowerCase() === type.toLowerCase() && eroom === room})){
                 //예약있음. 예약 불가능상태
-                document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white'
-                document.getElementById(`detail${type}${room}Bottom`).innerHTML = '예약완료';
+                //내 예약인지 아닌지 한번 확인하기
+
+                const {user} = pickedReserve.find(({ type:etype, room:eroom, user})=>{return etype.toLowerCase() === type.toLowerCase() && eroom === room});
+                if(user.toString() === loginId.toString()){
+                    document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-green-500 text-white'
+                    document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="handleCancel('${time}','${day}','${type.toLowerCase()}', '${room}')">예약 취소</button>`;
+                }else{
+                    document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white'
+                    document.getElementById(`detail${type}${room}Bottom`).innerHTML = '예약완료';
+                }
+                
             }else{
                 //예약없음. 예약 가능상태
                 document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center'
