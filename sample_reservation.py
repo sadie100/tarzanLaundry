@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-client = MongoClient('localhost', 27017)
+client = MongoClient('3.38.185.155', 27017)
 db = client.laundryDB
 
 from datetime import datetime, date, timedelta

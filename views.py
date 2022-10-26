@@ -38,7 +38,7 @@ jwt = JWTManager(app)
 from pymongo import MongoClient
 
 # db 이름은 laundryDB로 통일
-client = MongoClient('localhost',27017)
+client = MongoClient('3.38.185.155',27017)
 db = client.laundryDB
 
 
