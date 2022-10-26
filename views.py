@@ -223,7 +223,7 @@ def register():
       elif len(signup_pw1) < 5 :
          flash('비밀번호가 너무 짧습니다.', category='error')
 
-      print(signup_id,signup_pw1,signup_pw2,signup_name,signup_, )
+      print(signup_id,signup_pw1,signup_pw2,signup_name,signup_phone, )
 
       # else:
       #    if db.users.find_one({'id':signup_id})== 'None':
