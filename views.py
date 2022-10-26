@@ -94,8 +94,12 @@ def home():
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userName = decodeInfo['이름']
       userId = decodeInfo['sub']
-      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userId, userName=userName)
-   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False, userName=False)
+
+      today = date.today()
+      myLaundry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day)},'user': userId, 'type': 'laundry'})
+      myDry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day)},'user': userId, 'type': 'dry'})
+      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userId, userName=userName, myLaundry=myLaundry, myDry=myDry)
+   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False, userName=False,  myLaundry=False, myDry=False)
 
 
 # 토큰 식별 과정 (토큰이 있어야 정상작동)
@@ -163,6 +167,7 @@ def reserve():
    userId=False
    using = request.cookies.get('myapp_jwt')
 
+   nowtime = datetime.now()
    today = date.today()
    tomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
    dateVal = date.today()
@@ -171,7 +176,7 @@ def reserve():
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userId = decodeInfo['sub']
 
-      if db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day)},'user': userId, 'type': type}):
+      if db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day,int(nowtime.hour))},'user': userId, 'type': type}):
          flash('더이상 예약하실 수 없습니다.')
          print('중복 예약')
          return jsonify({'state':'already'})
