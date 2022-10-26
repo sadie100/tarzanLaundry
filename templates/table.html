@@ -11,43 +11,64 @@
       <div class="timeColumn">{{i}}시</div>
       {% endif %} {% endfor %}
       <div class="labelColumn1">오늘</div>
-      <div class="timeWrapper">
+      <div class="timeWrapper" id="today">
         {% for time in range(6,24)%}
-        <div class="blockWrapper" onclick="chechk({{time}} ,'today')">
-          {% for room in ['325', '326']%}
-            {% for type in ['laundry','dry']%}
-              {% if {'time' : time, 'room' : room, 'type' : type} in todayReservations %}
-              {% if time < nowtime.hour %}
-              <div class="bg-gray-300"></div>
-              {% else %}
-              <div class="bg-yellow-300"></div>
-              {% endif %}
-              {% else %}
-              <div class="bg-white cursor-pointer"></div>
-              {% endif %}
+        {% if time < nowtime['hour'] %}
+        <!-- 지난 시간 -->
+        <div class="blockWrapper" id="today-{{time}}">
+          {% for type in ['laundry','dry']%}
+            {% for room in ['325', '326']%}
+              {%for reserve in todayReservations %}
+                {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
+                  {% if time < nowtime['hour'] %}
+                    <div class="bg-gray-300"></div>
+                  {% else %}
+                    <div class="bg-yellow-300"></div>
+                  {% endif %}
+                  {%break%}
+                {% endif %}
+                {%endfor%}
+                <div class="bg-white"></div>
             {% endfor %}
           {% endfor %}
         </div>
+        {% else %}
+        <div class="blockWrapper cursor-pointer" onclick="pick({{time}},'today', {{todayReservations}})" id="today-{{time}}">
+          {% for type in ['laundry','dry']%}
+            {% for room in ['325', '326']%}
+              {%for reserve in todayReservations %}
+                {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
+                  {% if time < nowtime['hour'] %}
+                    <div class="bg-gray-300"></div>
+                  {% else %}
+                    <div class="bg-yellow-300"></div>
+                  {% endif %}
+                  {%break%}
+                {% endif %}
+                {%endfor%}
+                <div class="bg-white"></div>
+            {% endfor %}
+          {% endfor %}
+        </div>
+        {% endif %}
         {% endfor %}
       </div>
       <div class="labelColumn2">내일</div>
-      <div class="timeWrapper">
+      <div class="timeWrapper" id="tomorrow">
         {% for time in range(6,24)%}
-        <div class="blockWrapper"  onclick="chechk({{time}},'tom')">
-        {% for room in ['325', '326']%}
+        <div class="blockWrapper cursor-pointer"  onclick="pick({{time}},'tomorrow', {{tomorrowReservations}})" id="tomorrow-{{time}}">
           {% for type in ['laundry','dry']%}
-            {% if {'time' : time, 'room' : room, 'type' : type} in tomorrowReservations %}
-              {%if time < nowtime.hour%}
-              <div class="bg-yellow-300"></div>
-              {% else %}
-              <div class="bg-yellow-300"></div>
-              {% endif %}
-              {% else %}
+            {% for room in ['325', '326']%}
+              {%for reserve in tomorrowReservations %}
+                {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
+                    <div class="bg-yellow-300"></div>
+                  {%break%}
+                {% endif %}
+              {%endfor%}
               <div class="bg-white cursor-pointer"></div>
-            {% endif %}
+            {% endfor %}
           {% endfor %}
-        {% endfor %}
-      </div>
+        </div>
         {% endfor %}
       </div>
       <div class="text-red-500 font-bold text-4xl col-start-2 col-end-10 text-left py-2">
