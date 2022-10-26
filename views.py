@@ -11,6 +11,10 @@ from flask_jwt_extended import (
 )
 
 app = Flask(__name__)
+
+# jinja2에서 break문 사용하기 위한 extension
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 
 app.config['JWT_SESSION_COOKIE'] = False
