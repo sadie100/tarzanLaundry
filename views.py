@@ -1,26 +1,64 @@
 
+from cmath import sin
+from flask import Flask, jsonify, render_template, request, make_response, flash, redirect, url_for
 from datetime import datetime
-from flask import Flask, render_template, request, make_response
-from datetime import datetime
+from flask_jwt_extended import JWTManager
+from pymongo import MongoClient
+# 준철 
+from flask_jwt_extended import (
+    JWTManager, jwt_required, create_access_token,decode_token,
+     create_refresh_token,
+    get_jwt_identity, set_access_cookies,
+    set_refresh_cookies, unset_jwt_cookies
+)
 
 app = Flask(__name__)
+app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 
+app.config['JWT_SESSION_COOKIE'] = False
+
+app.config['JWT_ACCESS_COOKIE_PATH'] = '/'
+app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
+
+# 토큰의 쿠키에 대하여 이름을 부여. 해당 이름으로 쿠키를 찾는다
+app.config['JWT_ACCESS_COOKIE_NAME'] = 'myapp_jwt'
+app.config['JWT_REFRESH_COOKIE_NAME'] = 'myapp_jwt_refresh'
+
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+
+app.config['JWT_COOKIE_SECURE'] = False
+
+app.config["JWT_SECRET_KEY"] = "super-secret"
+jwt = JWTManager(app)
+
+
+# db 이름은 laundryDB로 통일
+client = MongoClient('localhost',27017)
+db = client.laundryDB
+
+# 테스트용 어드민 아이디
+adminID = 'kjc08'
+adminPW = '0814'
+
+# 토큰 비밀 키
+# SUPER_SECRET_KEY = 'myNameIsJunCheol'
 
 ## HTML을 주는 부분
 @app.route('/')
 def home():
-
+   # 만약 토큰이 존재하면. 또한 토큰에 저장된 내용이 데이터 베이스와 일치하면 로그인 페이지 보여주고,
+   # 유저 객체 리턴
    todayReservations = [
-      { 'type' : 'laundry', 'room' : '325', 'time' : 7 },
-      { 'type' : 'dry', 'room' : '326',  'time' : 10,  },
-      { 'type' : 'laundry', 'room' : '325', 'time' : 11 },
-      { 'type' : 'laundry', 'room' : '325','time' : 11 },
-      { 'type' : 'dry', 'room': '325',  'time' : 11 },
-      { 'type' : 'laundry', 'room' : '325',  'time' : 12 },
-      { 'type' : 'laundry', 'room' : '325',  'time' : 14 },
-      { 'type' : 'dry', 'room' : '325',  'time' : 18 },
-      { 'type' : 'laundry', 'room' : '325',  'time' :20 },
-      { 'type' : 'dry', 'room' : '325',  'time': 22 }
+   { 'type' : 'laundry', 'room' : '325', 'day' : 10-29, 'time' : 7 },
+   { 'type' : 'dry', 'room' : '326',  'time' : 10,  },
+   { 'type' : 'laundry', 'room' : '325', 'time' : 11 },
+   { 'type' : 'laundry', 'room' : '325','time' : 11 },
+   { 'type' : 'dry', 'room': '325',  'time' : 11 },
+   { 'type' : 'laundry', 'room' : '325',  'time' : 12 },
+   { 'type' : 'laundry', 'room' : '325',  'time' : 14 },
+   { 'type' : 'dry', 'room' : '325',  'time' : 18 },
+   { 'type' : 'laundry', 'room' : '325',  'time' :20 ,'id': None},
+   { 'type' : 'dry', 'room' : '325',  'time': 22 ,'id':'kjc0000'}
    ]
 
    tomorrowReservations = [
@@ -37,22 +75,125 @@ def home():
    ]
 
    nowtime = datetime.now()
+   using = request.cookies.get('myapp_jwt')
+   # 만약 로그인 했으면 해당 사용자의 id 값을 읽는다
+   if using :
+      decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
+      userId = decodeInfo['sub']
+      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userId)
+   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False)
 
 
-   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime)
+# 토큰 식별 과정 (토큰이 있어야 정상작동)
+# 웹에서 사용하지는 않음
+@app.route("/protected", methods=["GET"])
+@jwt_required()
+def protected():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
 
-@app.route('/memo')
-def memo():
-   info = "1212##12#"
-   resp = make_response()
-   resp.set_cookie('myinfo',info)
-   return resp
+# 로그인 submit 버튼 눌렀을 때 작동
+@app.route('/login',methods=['POST'])
+def login():
+   # input 데이터 불러오기
+   input_id = request.form.get('input_id')
+   input_pw = request.form.get('input_password')
+   
+   # 아이디가 존재하는지 확인
+   if db.users.find_one({'id':input_id}) or input_id == adminID:
+      # 테스트에서 없는 데이터의 벨류값을 찾을 경우 에러가 발생해서 주석처리함.
+      # input_pw == db.users.find_one({'id':input_id})['password'] or
+      # 추후 회원 데이터가 생기면 업데이트 해야함
 
-@app.route('/get_cookie')
-def get_cookie():
-   print(request.cookies.get('myinfo'))
-   return request.cookies.get('myinfo')
+      # 패스워드 일치하는지 확인
+      if  input_pw == adminPW:
+
+         # 토큰에 추가할 추가 정보는 additional_claims 에 입력
+         additional_claims = {"로그인 여부": "ON"}
+         # 로그인 성공 시 토큰 생성
+         access_token = create_access_token(input_id, additional_claims=additional_claims)
+         resp = make_response(redirect(url_for('home')))
+         set_access_cookies(resp, access_token)
+         flash(f'{input_id}님 반갑습니다.{access_token}은(는) 당신의 토큰입니다!')
+         return resp
+      else:
+         flash('패스워드가 맞지 않습니다.')
+         print('패스워드 잘못됨')
+         return redirect(url_for('home'))
+
+   else :
+      flash('가입되어 있지 않은 사용자입니다.')
+      return redirect(url_for('home'))
+
+@app.route('/logout',methods=['GET'])
+def logout():
+   print("로그아웃을 눌렀다")
+
+   response = make_response(redirect(url_for("home")))
+   unset_jwt_cookies(response)
+   flash('로그아웃했습니다.')
+
+   return response
+
+
+@app.route('/signup')
+def signup():
+   return render_template('sign_up.html')
+
+@app.route('/jungler_test')
+def junglertest():
+   return render_template('jungler_test.html')
    
 
-if __name__ == '__main__':  
-   app.run('0.0.0.0',port=5000,debug=True)
+
+@app.route('/signup/register',methods=['POST'])
+def register():
+   # 데이터 보내기
+   if request.method == "POST":
+
+      signup_id = request.get_json()   ['user_id'   ]
+      signup_pw1 = request.get_json()  ['user_pw1'  ]
+      signup_pw2 = request.get_json()  ['user_pw2'  ]
+      signup_name = request.get_json() ['user_name' ]
+      signup_room = request.get_json() ['user_room' ]
+      signup_phone = request.get_json()['user_phone']
+
+
+      if len(signup_id) < 4 :
+         flash('아이디는 5자 이상입니다.', category='error')
+      elif len(signup_name) < 2 :
+         flash('이름은 2자 이상입니다..', category='error')
+      elif signup_pw1 != signup_pw2 :
+         flash('비밀번호가 서로 다릅니다.', category='error')
+      elif len(signup_pw1) < 5 :
+         flash('비밀번호가 너무 짧습니다.', category='error')
+
+      print(signup_id,signup_pw1,signup_pw2,signup_name,signup_, )
+
+      # else:
+      #    if db.users.find_one({'id':signup_id})== 'None':
+      #       # 아이디 중복값없음
+
+      #       if db.users.find_one({'id':signup_phone})== 'None':
+      #          #전화번호 중복값 없음 - 회원가입
+               
+      #          flash(f'{signup_name}님 반갑습니다.{signup_pw1},{signup_name},{signup_room},{signup_phone} 입력정보')
+      #          return redirect(url_for('home'))
+               
+      #       else: #전화번호 중복
+      #          flash('중복된 전화번호 입니다.')
+      #          return redirect(url_for('home'))
+
+      #    else :
+      #       flash('중복된 아이디 입니다.')
+      #       return redirect(url_for('home'))
+            
+      return redirect(url_for('home'))
+
+
+if __name__ == '__main__': 
+   # 시크릿 키 설정이 되어있지 않으면 submit 액션에서 보안오류 발생.
+   app.secret_key = "super-secret"
+   # app.config['SESSION_TYPE'] = 'filesystem'
+   app.run(debug=True)
