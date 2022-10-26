@@ -3,7 +3,7 @@
 
 {% block table %}
   <div id="timeTable" class="relative">
-     <div class="timeTable text-center w-9/12">
+     <div class="timeTable text-center w-9/12 font-bold">
       <div class="timeColumn">시간</div>
       {% for i in range(6,24) %} {%if nowtime.hour == i%}
       <div class="timeColumn text-red-500">{{i}}시</div>
