@@ -19,8 +19,18 @@ function signupRegister(){
         body : JSON.stringify(data),
         headers : {
             "Content-Type" : "application/json"
-        },  
-    })
+        }, 
+    }).then(
+        (res)=>{
+            console.log(res['url']);
+            if(res['url'] == 'http://127.0.0.1:5000/'){
+                window.location.href = '/'
+            }
+            else{
+                window.location.href = '/signup'
+            }
+        }
+    )
 
         
     // .then(()=>{
