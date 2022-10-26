@@ -1,14 +1,14 @@
+
 from datetime import datetime
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 from datetime import datetime
+
 app = Flask(__name__)
 
 
 ## HTML을 주는 부분
 @app.route('/')
 def home():
-
-
 
    todayReservations = [
       { 'type' : 'laundry', 'room' : '325', 'time' : 7 },
@@ -40,6 +40,19 @@ def home():
 
 
    return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime)
+
+@app.route('/memo')
+def memo():
+   info = "1212##12#"
+   resp = make_response()
+   resp.set_cookie('myinfo',info)
+   return resp
+
+@app.route('/get_cookie')
+def get_cookie():
+   print(request.cookies.get('myinfo'))
+   return request.cookies.get('myinfo')
+   
 
 if __name__ == '__main__':  
    app.run('0.0.0.0',port=5000,debug=True)
