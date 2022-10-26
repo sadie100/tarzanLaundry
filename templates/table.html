@@ -15,8 +15,8 @@
         {% if time < nowtime['hour'] %}
         <!-- 지난 시간 -->
         <div class="blockWrapper" id="today-{{time}}">
-          {% for room in ['325', '326']%}
-            {% for type in ['laundry','dry']%}
+          {% for type in ['laundry','dry']%}
+            {% for room in ['325', '326']%}
               {%for reserve in todayReservations %}
                 {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
                   {% if time < nowtime['hour'] %}
@@ -32,9 +32,9 @@
           {% endfor %}
         </div>
         {% else %}
-        <div class="blockWrapper cursor-pointer hover:border-gray-300 hover:border-2 hover:border-solid" onclick="pick({{time}},'today')" id="today-{{time}}">
-          {% for room in ['325', '326']%}
-            {% for type in ['laundry','dry']%}
+        <div class="blockWrapper cursor-pointer" onclick="pick({{time}},'today', {{todayReservations}})" id="today-{{time}}">
+          {% for type in ['laundry','dry']%}
+            {% for room in ['325', '326']%}
               {%for reserve in todayReservations %}
                 {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
                   {% if time < nowtime['hour'] %}
@@ -55,19 +55,19 @@
       <div class="labelColumn2">내일</div>
       <div class="timeWrapper" id="tomorrow">
         {% for time in range(6,24)%}
-        <div class="blockWrapper cursor-pointer hover:border-gray-300 hover:border-2 hover:border-solid"  onclick="pick({{time}},'tomorrow')" id="tomorrow-{{time}}">
-        {% for room in ['325', '326']%}
+        <div class="blockWrapper cursor-pointer"  onclick="pick({{time}},'tomorrow', {{tomorrowReservations}})" id="tomorrow-{{time}}">
           {% for type in ['laundry','dry']%}
-            {%for reserve in tomorrowReservations %}
-              {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
-                  <div class="bg-yellow-300"></div>
-                {%break%}
-              {% endif %}
-            {%endfor%}
-            <div class="bg-white cursor-pointer"></div>
+            {% for room in ['325', '326']%}
+              {%for reserve in tomorrowReservations %}
+                {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
+                    <div class="bg-yellow-300"></div>
+                  {%break%}
+                {% endif %}
+              {%endfor%}
+              <div class="bg-white cursor-pointer"></div>
+            {% endfor %}
           {% endfor %}
-        {% endfor %}
-      </div>
+        </div>
         {% endfor %}
       </div>
       <div class="text-red-500 font-bold text-4xl col-start-2 col-end-10 text-left py-2">
