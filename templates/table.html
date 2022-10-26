@@ -14,30 +14,46 @@
       <div class="timeWrapper" id="today">
         {% for time in range(6,24)%}
         {% if time < nowtime['hour'] %}
-        
-        <div class="blockWrapper" id="today-{{time}}">
-          {% for type in ['laundry','dry']%}
-            {% for room in ['325', '326']%}
-              {%for reserve in todayReservations %}
-                {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
-                  {% if time < nowtime['hour'] %}
-                    <div class="bg-gray-300"></div>
-                  {% else %}
-                    <div class="bg-yellow-300"></div>
+          <div class="blockWrapper" id="today-{{time}}">
+            {% for type in ['laundry','dry']%}
+              {% for room in ['325', '326']%}
+                {%for reserve in todayReservations %}
+                  {% if reserve['time'] ==  time %}
+                    {% if reserve['type'] == 'laundry' %}
+                      {% if reserve['room'] == '325' %}
+                        <div class="bg-gray-300 row-start-1 col-start-1"></div>
+                      {% else %}
+                        <div class="bg-gray-300 row-start-1 col-start-2"></div>
+                      {% endif%}
+                    {% else %}
+                      {% if reserve['room'] == '325' %}
+                        <div class="bg-gray-300 row-start-2 col-start-1"></div>
+                      {% else %}
+                        <div class="bg-gray-300 row-start-2 col-start-2"></div>
+                      {% endif%}
+                    {% endif %}
                   {% endif %}
-                  {%break%}
-                {% endif %}
-                {%endfor%}
-                <div class="bg-white"></div>
+                {% endfor %}
+              {% endfor %}
             {% endfor %}
-          {% endfor %}
-        </div>
-
+          </div>
         {% else %}
         <div class="blockWrapper cursor-pointer" onclick="pick({{time}},'today', {{todayReservations}})" id="today-{{time}}">
           {% for reserve in todayReservations %}
             {% if reserve['time'] ==  time %}
-            <div class="relative bg-yellow-300 abolute h-1/2 w-1/2">{{reserve['time']}},{{reserve['type']}},{{reserve['room']}}</div>
+              {% if reserve['type'] == 'laundry' %}
+                {% if reserve['room'] == '325' %}
+                  <div class="bg-yellow-300 row-start-1 col-start-1"></div>
+                {% else %}
+                  <div class="bg-yellow-300 row-start-1 col-start-2"></div>
+                {% endif%}
+              {% else %}
+                {% if reserve['room'] == '325' %}
+                  <div class="bg-yellow-300 row-start-2 col-start-1"></div>
+                {% else %}
+                  <div class="bg-yellow-300 row-start-2 col-start-2"></div>
+                {% endif%}
+              {% endif %}
             {% endif %}
           {% endfor %}
         </div>
@@ -51,9 +67,20 @@
           {% for type in ['laundry','dry']%}
             {% for room in ['325', '326']%}
               {%for reserve in tomorrowReservations %}
-                {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
-                    <div class="bg-yellow-300"></div>
-                  {%break%}
+                {% if reserve['time'] ==  time %}
+                  {% if reserve['type'] == 'laundry' %}
+                    {% if reserve['room'] == '325' %}
+                      <div class="bg-yellow-300 row-start-1 col-start-1"></div>
+                    {% else %}
+                      <div class="bg-yellow-300 row-start-1 col-start-2"></div>
+                    {% endif%}
+                  {% else %}
+                    {% if reserve['room'] == '325' %}
+                      <div class="bg-yellow-300 row-start-2 col-start-1"></div>
+                    {% else %}
+                      <div class="bg-yellow-300 row-start-2 col-start-2"></div>
+                    {% endif%}
+                  {% endif %}
                 {% endif %}
               {%endfor%}
               <div class="bg-white cursor-pointer"></div>
