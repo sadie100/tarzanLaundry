@@ -19,13 +19,23 @@ function signupRegister(){
         body : JSON.stringify(data),
         headers : {
             "Content-Type" : "application/json"
-        },  
-    })
+        }, 
+    }).then(
+        (res)=>{
+            console.log(res['url']);
+            if(res['url'] == 'http://127.0.0.1:5000/'){
+                window.location.href = '/'
+            }
+            else{
+                window.location.href = '/signup'
+            }
+        }
+    )
 
         
-    .then(()=>{
-        window.location.href = '/signup'; // 새로고침
-    })
+    // .then(()=>{
+    //     window.location.href = '/'; // 새로고침
+    // })
     .catch((error) => {
         console.log(error)
     });
