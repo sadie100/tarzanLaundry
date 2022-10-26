@@ -14,7 +14,7 @@
       <div class="timeWrapper" id="today">
         {% for time in range(6,24)%}
         {% if time < nowtime['hour'] %}
-        <!-- 지난 시간 -->
+        
         <div class="blockWrapper" id="today-{{time}}">
           {% for type in ['laundry','dry']%}
             {% for room in ['325', '326']%}
@@ -32,22 +32,13 @@
             {% endfor %}
           {% endfor %}
         </div>
+
         {% else %}
         <div class="blockWrapper cursor-pointer" onclick="pick({{time}},'today', {{todayReservations}})" id="today-{{time}}">
-          {% for type in ['laundry','dry']%}
-            {% for room in ['325', '326']%}
-              {%for reserve in todayReservations %}
-                {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
-                  {% if time < nowtime['hour'] %}
-                    <div class="bg-gray-300"></div>
-                  {% else %}
-                    <div class="bg-yellow-300"></div>
-                  {% endif %}
-                  {%break%}
-                {% endif %}
-                {%endfor%}
-                <div class="bg-white"></div>
-            {% endfor %}
+          {% for reserve in todayReservations %}
+            {% if reserve['time'] ==  time %}
+            <div class="bg-yellow-300 abolute mr-0">{{reserve['time']}},{{reserve['type']}},{{reserve['room']}}</div>
+            {% endif %}
           {% endfor %}
         </div>
         {% endif %}
