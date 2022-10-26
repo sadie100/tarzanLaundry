@@ -36,9 +36,11 @@ jwt = JWTManager(app)
 
 
 from pymongo import MongoClient
+
 # db 이름은 laundryDB로 통일
 client = MongoClient('localhost',27017)
 db = client.laundryDB
+
 
 # 테스트용 어드민 아이디
 adminID = 'kjc08'
@@ -133,8 +135,8 @@ def home():
    # 만약 로그인 했으면 해당 사용자의 id 값을 읽는다
    if using :
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
-      userId = decodeInfo['sub']
-      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userId)
+      userName = decodeInfo['이름']
+      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userName)
    return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False)
 
 
@@ -155,16 +157,16 @@ def login():
    input_pw = request.form.get('input_password')
    
    # 아이디가 존재하는지 확인
-   if db.users.find_one({'id':input_id}) or input_id == adminID:
+   if db.users.find_one({'user_id':input_id}):
       # 테스트에서 없는 데이터의 벨류값을 찾을 경우 에러가 발생해서 주석처리함.
-      # input_pw == db.users.find_one({'id':input_id})['password'] or
+      
       # 추후 회원 데이터가 생기면 업데이트 해야함
 
       # 패스워드 일치하는지 확인
-      if  input_pw == adminPW:
+      if  input_pw == db.users.find_one({'user_id':input_id})['user_pw']:
 
          # 토큰에 추가할 추가 정보는 additional_claims 에 입력
-         additional_claims = {"로그인 여부": "ON"}
+         additional_claims = {"이름":db.users.find_one({'user_id':input_id})['user_name'],"전화번호": db.users.find_one({'user_id':input_id})['user_phone']}
          # 로그인 성공 시 토큰 생성
          access_token = create_access_token(input_id, additional_claims=additional_claims)
          resp = make_response(redirect(url_for('home')))
@@ -227,25 +229,26 @@ def register():
          flash('비밀번호가 너무 짧습니다.')
          return redirect(url_for('register'))
 
-      # else:
-      #    if db.users.find_one({'id':signup_id})== 'None':
-      #       # 아이디 중복값없음
+      else:
+         print(db.users.find_one({'user_id':signup_id}))
+         if db.users.find_one({'user_id':signup_id}) == None:
+            # 아이디 중복값
 
-      #       if db.users.find_one({'id':signup_phone})== 'None':
-      #          #전화번호 중복값 없음 - 회원가입
+            if db.users.find_one({'user_phone':signup_phone}) == None:
+               #전화번호 중복값 - 회원가입
+               user_info = {'user_id':signup_id,'user_pw':signup_pw1,'user_name':signup_name,'user_room':signup_room,'user_phone':signup_phone}
+               db.users.insert_one(user_info)
+               flash(f'{signup_name}님 반갑습니다.{signup_pw1},{signup_name},{signup_room},{signup_phone} 입력정보')
+               return redirect(url_for('home'))
                
-      #          flash(f'{signup_name}님 반갑습니다.{signup_pw1},{signup_name},{signup_room},{signup_phone} 입력정보')
-      #          return redirect(url_for('home'))
-               
-      #       else: #전화번호 중복
-      #          flash('중복된 전화번호 입니다.')
-      #          return redirect(url_for('home'))
+            else: #전화번호 중복
+               flash('중복된 전화번호 입니다.')
+               return redirect(url_for('register'))
 
-      #    else :
-      #       flash('중복된 아이디 입니다.')
-      #       return redirect(url_for('home'))
-            
-      return redirect(url_for('home'))
+         else :
+            flash('중복된 아이디 입니다.')
+            return redirect(url_for('register'))
+
 
 
 if __name__ == '__main__': 
