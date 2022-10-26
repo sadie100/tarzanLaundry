@@ -1,5 +1,5 @@
 
-from cmath import sin
+
 from flask import Flask, jsonify, render_template, request, make_response, flash, redirect, url_for
 from datetime import datetime, date, timedelta
 from pymongo import MongoClient
@@ -215,15 +215,17 @@ def register():
 
 
       if len(signup_id) < 4 :
-         flash('아이디는 5자 이상입니다.', category='error')
+         flash('아이디는 5자 이상입니다.')
+         return redirect(url_for('register'))
       elif len(signup_name) < 2 :
-         flash('이름은 2자 이상입니다..', category='error')
+         flash('이름은 2자 이상입니다..')
+         return redirect(url_for('register'))
       elif signup_pw1 != signup_pw2 :
-         flash('비밀번호가 서로 다릅니다.', category='error')
+         flash('비밀번호가 서로 다릅니다.')
+         return redirect(url_for('register'))
       elif len(signup_pw1) < 5 :
-         flash('비밀번호가 너무 짧습니다.', category='error')
-
-      print(signup_id,signup_pw1,signup_pw2,signup_name,signup_phone, )
+         flash('비밀번호가 너무 짧습니다.')
+         return redirect(url_for('register'))
 
       # else:
       #    if db.users.find_one({'id':signup_id})== 'None':
