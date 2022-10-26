@@ -43,15 +43,31 @@
             {% if reserve['time'] ==  time %}
               {% if reserve['type'] == 'laundry' %}
                 {% if reserve['room'] == '325' %}
-                  <div class="bg-yellow-300 row-start-1 col-start-1"></div>
+                  {% if reserve['user'] == userId%}
+                    <div class="bg-green-500 row-start-1 col-start-1 text-white font-bold break-keep">내 예약</div>
+                  {% else %}
+                    <div class="bg-yellow-300 row-start-1 col-start-1"></div>
+                  {% endif%}
                 {% else %}
-                  <div class="bg-yellow-300 row-start-1 col-start-2"></div>
+                  {% if reserve['user'] == userId%}
+                    <div class="bg-green-500 row-start-1 col-start-2 text-white font-bold break-keep"></div>
+                  {% else %}
+                    <div class="bg-yellow-300 row-start-1 col-start-2"></div>
+                  {% endif%}
                 {% endif%}
               {% else %}
                 {% if reserve['room'] == '325' %}
-                  <div class="bg-yellow-300 row-start-2 col-start-1"></div>
+                  {% if reserve['user'] == userId%}
+                    <div class="bg-green-500 row-start-2 col-start-1  text-white font-bold break-keep">내 예약</div>
+                  {% else %}
+                    <div class="bg-yellow-300 row-start-2 col-start-1"></div>
+                  {% endif%}
                 {% else %}
-                  <div class="bg-yellow-300 row-start-2 col-start-2"></div>
+                  {% if reserve['user'] == userId%}
+                    <div class="bg-green-500 row-start-2 col-start-2 text-white font-bold break-keep">내 예약</div>
+                  {% else %}
+                    <div class="bg-yellow-300 row-start-2 col-start-2"></div>
+                  {% endif%}
                 {% endif%}
               {% endif %}
             {% endif %}
@@ -67,21 +83,37 @@
           {% for type in ['laundry','dry']%}
             {% for room in ['325', '326']%}
               {%for reserve in tomorrowReservations %}
-                {% if reserve['time'] ==  time %}
-                  {% if reserve['type'] == 'laundry' %}
-                    {% if reserve['room'] == '325' %}
-                      <div class="bg-yellow-300 row-start-1 col-start-1"></div>
-                    {% else %}
-                      <div class="bg-yellow-300 row-start-1 col-start-2"></div>
-                    {% endif%}
+              {% if reserve['time'] ==  time %}
+              {% if reserve['type'] == 'laundry' %}
+                {% if reserve['room'] == '325' %}
+                  {% if reserve['user'] == userId%}
+                    <div class="bg-green-500 row-start-1 col-start-1 text-white font-bold break-keep">내 예약</div>
                   {% else %}
-                    {% if reserve['room'] == '325' %}
-                      <div class="bg-yellow-300 row-start-2 col-start-1"></div>
-                    {% else %}
-                      <div class="bg-yellow-300 row-start-2 col-start-2"></div>
-                    {% endif%}
-                  {% endif %}
-                {% endif %}
+                    <div class="bg-yellow-300 row-start-1 col-start-1"></div>
+                  {% endif%}
+                {% else %}
+                  {% if reserve['user'] == userId%}
+                    <div class="bg-green-500 row-start-1 col-start-2 text-white font-bold break-keep">내 예약</div>
+                  {% else %}
+                    <div class="bg-yellow-300 row-start-1 col-start-2"></div>
+                  {% endif%}
+                {% endif%}
+              {% else %}
+                {% if reserve['room'] == '325' %}
+                  {% if reserve['user'] == userId%}
+                    <div class="bg-green-500 row-start-2 col-start-1 text-white font-bold break-keep">내 예약</div>
+                  {% else %}
+                    <div class="bg-yellow-300 row-start-2 col-start-1"></div>
+                  {% endif%}
+                {% else %}
+                  {% if reserve['user'] == userId%}
+                    <div class="bg-green-500 row-start-2 col-start-2 text-white font-bold break-keep">내 예약</div>
+                  {% else %}
+                    <div class="bg-yellow-300 row-start-2 col-start-2"></div>
+                  {% endif%}
+                {% endif%}
+              {% endif %}
+            {% endif %}
               {%endfor%}
               <div class="bg-white cursor-pointer"></div>
             {% endfor %}
