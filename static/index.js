@@ -12,7 +12,7 @@ const handleReserve = (time, day, type, room) => {
     }).then((res)=>{
         console.log(res);
         if(res.status===200){
-            alert('예약이 완료되었습니다.');
+            alert('예약을 진행합니다.');
             window.location.reload()
         }else if(res.status===401){
             return alert('로그인 정보가 없습니다. 로그인을 해 주세요.')
