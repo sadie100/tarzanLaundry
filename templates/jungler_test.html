@@ -1,16 +1,9 @@
-<!-- {% extends "index.html" %}
-{% block title %}
-Title - Jungler Test
-{% endblock %}
- -->
-
 <!doctype html>
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="https://cdn.tailwindcss.com">
-        </script>
+        <script src="https://cdn.tailwindcss.com"></script>
         <script>
         tailwind.config = {
             theme: {
@@ -20,8 +13,30 @@ Title - Jungler Test
             }
         }
         </script>
+        <script type="text/javascript">
+            function Answering(){
+                let inputAnswer = document.getElementById('test_answer').value;
+                console.log(inputAnswer);
+                if(inputAnswer=="김세희"){
+                    alert("정답입니다!");
+                    window.location.href='/signup'
+                }
+                else if(inputAnswer=="김준철"){
+                    alert("정답입니다!");
+                    window.location.href='/signup'
+                }
+                else if(inputAnswer=="장홍표"){
+                    alert("정답입니다!");
+                    window.location.href='/signup'
+                }
+                else if(inputAnswer==""){
+                    alert("정답을 입력하세요!");
+                }
+                else alert("오답입니다!")
+            }
+        </script>
     </head>
-    <!-- {% block content %} -->
+
     <body>
         <h2 class="mt-40 text-center text-3xl font-bold tracking-tight text-gray-900">회원가입 검증질문</h2>
 
@@ -31,14 +46,13 @@ Title - Jungler Test
             </div>
             <div class="m-10">
                 <label class="text-left tracking-tight text-black ">A.</label>
-                <input type="text" class="ring-1 ring-gray-300 ring-inset form-input rounded-lg mx-1 shadow-sm focus:border-red-500 focus:ring-red-500 h-8 w-96" placeholder=" Answer">    
+                <input type="text" id="test_answer" onkeydown="if(event.keyCode==13){Answering();}" class="ring-1 ring-gray-300 ring-inset form-input rounded-lg mx-1 shadow-sm focus:border-red-500 focus:ring-red-500 h-8 w-96" placeholder=" Answer">    
             </div>
-            <button class="mt-10 col-span-1 ring-1 ring-blue-400 ring-inset rounded-lg hover:bg-blue-600 bg-blue-500 shadow-lg h-8 w-32 font-bold text-white">회원가입</button>
+            <button class="mt-10 col-span-1 ring-1 ring-blue-400 ring-inset rounded-lg hover:bg-blue-600 bg-blue-500 shadow-lg h-10 w-40 font-bold text-white" onclick="Answering()">회원가입하기</button>
 
         </div>
 
     </body>
-    <!-- {% end block %} -->
 </html>
 
 
