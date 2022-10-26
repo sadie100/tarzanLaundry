@@ -39,3 +39,14 @@ const pick = function (time, day, reservations) {
         }
     }
 }
+
+
+const logOut = function() {
+    fetch('/logout',
+  {
+    method: 'GET',
+  }).then(location=location)
+  .then(location=location)
+  .then(location=location)
+}
+

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,6 +37,7 @@
     <title>타잔, 세탁을 부탁해</title>
 </head>
 <body>
+
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             <script>
@@ -45,6 +47,8 @@
     {% endwith %}
     <!-- 김준철 로그인 바 / 추후 진자 템플릿 if 문으로 로그인 여부 확인하여 표시 -->
     <!-- 로그인 바 (비로그인 상태)  -->
+
+    {% if not using %}
     <div class="flex justify-between w-full">
         <!-- 로고 -->
         <div class="relative flex ">
@@ -58,7 +62,7 @@
             </div>
         </div>
         <!-- 로그인 폼 -->
-        <form action="/login" method="post" class="flex items-end">
+        <form action="/login" method="post" class="flex items-end" name="">
             <div class="relative flex  md:grid-cols-3 items-center">
                 <div class="relative mr-1">
                     <input type="text" name="input_id" id="input_id" class="block px-2.5 pb-1 pt-3 w-full text-xs text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
@@ -74,6 +78,7 @@
         </form>
     </div>
     <!-- 로그인 바 (로그인 상태)  -->
+    {% else %}
     <div class="flex justify-between w-full">
         <!-- 로고 -->
         <div class="relative flex ">
@@ -90,12 +95,13 @@
         <div action="" class="flex items-end">
             <div class="relative flex  md:grid-cols-3 items-center">
                 <div>
-                    <p class="pr-5">" user 님 환영합니니다! "</p>
+                    <p class="pr-5">" {{userId}} 님 환영합니니다! "</p>
                 </div>
-                <button type="button" class="mr-1 bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded">로그아웃</button>
+                <button type="button" onclick="logOut()" class="mr-1 bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded">로그아웃</button>
             </div>
         </div>
     </div>
+    {% endif %}
     <!-- 타임테이블 -->
     <div id="timeTable" class="relative">
         {% block table %} 
