@@ -30,6 +30,9 @@ https://itholic.github.io/python-requirements/ 참고
 ```.venv/Scripts/activate```
 -> 가상환경 활성화 커맨드
 
+```Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser```
+-> 가상환경 권한변경 커맨드 (Python 관련 문제 발생 시)
+
 가상환경이 활성화되었으면 터미널에 다음 명령어를 입력한다.
 
 ```pip install -r requirements.txt```
