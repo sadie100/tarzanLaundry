@@ -11,7 +11,7 @@ app = Flask(__name__)
 def home():
 
    todayReservations = [
-      { 'type' : 'laundry', 'room' : '325', 'time' : 7 },
+      { 'type' : 'laundry', 'room' : '325', 'day' : 10-29, 'time' : 7 },
       { 'type' : 'dry', 'room' : '326',  'time' : 10,  },
       { 'type' : 'laundry', 'room' : '325', 'time' : 11 },
       { 'type' : 'laundry', 'room' : '325','time' : 11 },
@@ -19,8 +19,8 @@ def home():
       { 'type' : 'laundry', 'room' : '325',  'time' : 12 },
       { 'type' : 'laundry', 'room' : '325',  'time' : 14 },
       { 'type' : 'dry', 'room' : '325',  'time' : 18 },
-      { 'type' : 'laundry', 'room' : '325',  'time' :20 },
-      { 'type' : 'dry', 'room' : '325',  'time': 22 }
+      { 'type' : 'laundry', 'room' : '325',  'time' :20 ,'id': None},
+      { 'type' : 'dry', 'room' : '325',  'time': 22 ,'id':'kjc0000'}
    ]
 
    tomorrowReservations = [
