@@ -63,36 +63,6 @@ def get_table():
    exactTomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
    exactDat =  (datetime(today.year,today.month,today.day) + timedelta(days=2))
 
-   # data = db.reservations.aggregate([
-   #    {
-   #       '$match':{
-   #          'date':{
-   #             '$gte' : exactToday,
-   #             '$lt' : exactTomorrow
-   #          }
-   #       },
-   #    },
-   #    {
-   #       '$project':{
-   #          'user':1,
-   #          'type':1,
-   #          'room':1,
-   #          'certification':1,
-   #          'date':1,
-   #          'time':{
-   #             '$dateToString' : {
-   #                'format' : '%H',
-   #                'date' : '$date'
-   #             }
-   #          }
-   #       }
-   #    },
-   #    {
-   #       '$sort' : {
-   #          'time' : 1
-   #       }
-   #    }
-   # ])
    todayReservations = list(db.reservations.find({
       'date' : {'$gte' : exactToday, '$lt':exactTomorrow}
    },{ '_id':0, 'user':1, 'type':1, 'room':1, 'date':1}).sort([['date',1]]))
@@ -119,6 +89,7 @@ def home():
    nowtime = datetime.now()
    using = request.cookies.get('myapp_jwt')
    # 만약 로그인 했으면 해당 사용자의 id 값을 읽는다
+   
    if using :
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userName = decodeInfo['이름']
@@ -244,7 +215,7 @@ def cancel():
       dateVal = datetime(tomorrow.year,tomorrow.month,tomorrow.day,int(time))
 
    target = db.reservations.find_one({"date" : dateVal, "user" : userId, "type" : type, "room":room})
-   if(not target):
+   if(target is None):
       abort(404)
    
    db.reservations.delete_one({
