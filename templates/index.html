@@ -9,26 +9,6 @@
 <script src="../static/index.js"></script>
 <!-- tailwindCss -->
 <script src="https://cdn.tailwindcss.com"></script>
-<script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            clifford: '#da373d',
-          }
-        }
-      }
-    }
-//     module.exports = {
-//   theme: {
-//     // ...
-//   },
-//   plugins: [
-//     require('@tailwindcss/forms'),
-//     // ...
-//   ],
-// }
-</script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
 <!-- 테이블 css -->
 <link
@@ -56,7 +36,13 @@
     <title>타잔, 세탁을 부탁해</title>
 </head>
 <body>
-    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <script>
+                alert("{{messages[-1]}}")
+            </script>
+        {% endif %}
+    {% endwith %}
     <!-- 김준철 로그인 바 / 추후 진자 템플릿 if 문으로 로그인 여부 확인하여 표시 -->
     <!-- 로그인 바 (비로그인 상태)  -->
     <div class="flex justify-between w-full">
@@ -72,17 +58,17 @@
             </div>
         </div>
         <!-- 로그인 폼 -->
-        <form action="" class="flex items-end">
+        <form action="/login" method="post" class="flex items-end">
             <div class="relative flex  md:grid-cols-3 items-center">
                 <div class="relative mr-1">
-                    <input type="text" id="input_id" class="block px-2.5 pb-1 pt-3 w-full text-xs text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                    <input type="text" name="input_id" id="input_id" class="block px-2.5 pb-1 pt-3 w-full text-xs text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
                     <label for="input_id" class="absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-1 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-75 peer-focus:-translate-y-3 left-1"> id</label>
                 </div>
                 <div class="relative mr-1">
-                    <input type="text" id="input_password" class="block px-2.5 pb-1 pt-3 w-full text-xs text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
+                    <input type="text" name="input_password" id="input_password" class="block px-2.5 pb-1 pt-3 w-full text-xs text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " />
                     <label for="input_password" class="absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-1 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-75 peer-focus:-translate-y-3 left-1"> password</label>
                 </div>
-                <button type="submit" onclick="checkMyCookie()" class="mr-2 bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded">로그인</button>
+                <button type="submit" class="mr-2 bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded">로그인</button>
                 <button type="button" class="mr-1 bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded">회원가입</button>
             </div>
         </form>
@@ -113,7 +99,6 @@
     <!-- 타임테이블 -->
     <div id="timeTable" class="relative">
         {% block table %} 
-    
         {% endblock %}
     </div>
     <!-- 세부정보 -->
