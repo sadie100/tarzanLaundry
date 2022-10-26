@@ -108,7 +108,7 @@
     </div>
     <!-- 세부정보 -->
     <!-- 타임테이블 클릭 시 해당 박스의 정보를 받는다 ( JS를 통해서 데이터를 받고 JS 에서 해당 HTML 을 만들면 될 것) -->
-    <div class="flex justify-center">
+    <div class="flex justify-center" id="detailWrapper">
         <!-- 좌측 하단 및 중앙 메세지와 버튼 -->
         <div class="mt-5 flex mr-7">
             <div>
@@ -120,62 +120,6 @@
             </div>
         </div>
         <!-- 우측 하단 상세 테이블 -->
-        <div id="timeTableDetail" class="flex flex-col w-48 h-64 border border-indigo-600">
-            <!-- type 1 테이블 -->
-            <div class="flex w-full justify-evenly h-1/2 items-center text-sm">
-                <!-- 325호 1타입 예약 가능상태 -->
-                <div id="detailLaundry325" class="flex justify-evenly w-full h-full flex-col items-center">
-                    <div>
-                        325
-                    </div>
-                    <div>
-                        세탁기
-                    </div>
-                    <div id="detailLaundry325Bottom">
-                        <button type="button" class=" ml-auto bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded ">예약하기</button>
-                    </div>
-                </div>
-                <!-- 326호 1타입 예약 불가능상태 -->
-                <div id="detailLaundry326" class="flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white	">
-                    <div>
-                        326
-                    </div>
-                    <div>
-                        세탁기
-                    </div>
-                    <div id="detailLaundry326Bottom">
-                        예약완료
-                    </div>
-                </div>
-            </div>
-            <!-- type 2 -->
-            <div class="flex w-full justify-evenly h-1/2 items-center text-sm">
-                <!-- 325호 2타입 예약 불가능상태 -->
-                <div id="detailDry325" class="flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white	">
-                    <div>
-                        325
-                    </div>
-                    <div>
-                        건조기
-                    </div>
-                    <div id="detailDry325Bottom">
-                        예약완료
-                    </div>
-                </div>
-                <!-- 326호 2타입 예약 가능상태 -->
-                <div id="detailDry326" class="flex justify-evenly w-full h-full flex-col items-center ">
-                    <div>
-                        326
-                    </div>
-                    <div>
-                        건조기
-                    </div>
-                    <div id="detailDry326Bottom">
-                        <button type="button" class=" ml-auto bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded ">예약하기</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         
     </div>
 </body>
