@@ -114,11 +114,11 @@
             {% if using %}
             <div>
                 {% if myLaundry %}
-                <p class="flex">나의 세탁기 예약 : {{myLaundry['date'].day}}일 {{myLaundry['date'].hour}}시, {{myLaundry['room']}}호</p>
+                <p class="flex text-xl text-slate-500 font-bold">나의 세탁기 예약 : {{myLaundry['date'].day}}일 {{myLaundry['date'].hour}}시, {{myLaundry['room']}}호</p>
                 {% endif %}
                 <br>
                 {% if myDry %}
-                <p class="flex">나의 건조기 예약 : {{myDry['date'].day}}일 {{myDry['date'].hour}}시, {{myDry['room']}}호</p>
+                <p class="flex text-xl text-slate-500 font-bold">나의 건조기 예약 : {{myDry['date'].day}}일 {{myDry['date'].hour}}시, {{myDry['room']}}호</p>
                 {% endif %}
                 <br>
             </div>

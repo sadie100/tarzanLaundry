@@ -96,8 +96,10 @@ def home():
       userId = decodeInfo['sub']
 
       today = date.today()
-      myLaundry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day)},'user': userId, 'type': 'laundry'})
-      myDry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day)},'user': userId, 'type': 'dry'})
+      myLaundry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day,int(nowtime.hour))},'user': userId, 'type': 'laundry'})
+
+      myDry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day,int(nowtime.hour))},'user': userId, 'type': 'dry'})
+
       return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userId, userName=userName, myLaundry=myLaundry, myDry=myDry)
    return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False, userName=False,  myLaundry=False, myDry=False)
 
