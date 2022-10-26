@@ -1,4 +1,5 @@
 
+from cmath import sin
 from flask import Flask, jsonify, render_template, request, make_response, flash, redirect, url_for
 from datetime import datetime
 from pymongo import MongoClient
@@ -83,6 +84,61 @@ def login():
 
    else :
       flash('가입되어 있지 않은 사용자입니다.')
+      return redirect(url_for('home'))
+
+
+@app.route('/signup')
+def signup():
+   return render_template('sign_up.html')
+
+@app.route('/jungler_test')
+def junglertest():
+   return render_template('jungler_test.html')
+   
+
+
+@app.route('/signup/register',methods=['POST'])
+def register():
+   # 데이터 보내기
+   if request.method == "POST":
+
+      signup_id = request.get_json()   ['user_id'   ]
+      signup_pw1 = request.get_json()  ['user_pw1'  ]
+      signup_pw2 = request.get_json()  ['user_pw2'  ]
+      signup_name = request.get_json() ['user_name' ]
+      signup_room = request.get_json() ['user_room' ]
+      signup_phone = request.get_json()['user_phone']
+
+
+      if len(signup_id) < 4 :
+         flash('아이디는 5자 이상입니다.', category='error')
+      elif len(signup_name) < 2 :
+         flash('이름은 2자 이상입니다..', category='error')
+      elif signup_pw1 != signup_pw2 :
+         flash('비밀번호가 서로 다릅니다.', category='error')
+      elif len(signup_pw1) < 5 :
+         flash('비밀번호가 너무 짧습니다.', category='error')
+
+      print(signup_id,signup_pw1,signup_pw2,signup_name,signup_, )
+
+      # else:
+      #    if db.users.find_one({'id':signup_id})== 'None':
+      #       # 아이디 중복값없음
+
+      #       if db.users.find_one({'id':signup_phone})== 'None':
+      #          #전화번호 중복값 없음 - 회원가입
+               
+      #          flash(f'{signup_name}님 반갑습니다.{signup_pw1},{signup_name},{signup_room},{signup_phone} 입력정보')
+      #          return redirect(url_for('home'))
+               
+      #       else: #전화번호 중복
+      #          flash('중복된 전화번호 입니다.')
+      #          return redirect(url_for('home'))
+
+      #    else :
+      #       flash('중복된 아이디 입니다.')
+      #       return redirect(url_for('home'))
+            
       return redirect(url_for('home'))
 
 
