@@ -2,6 +2,7 @@
 {% extends "index.html" %}
 
 {% block table %}
+  <div id="timeTable" class="relative">
      <div class="timeTable text-center w-9/12">
       <div class="timeColumn">시간</div>
       {% for i in range(6,24) %} {%if nowtime.hour == i%}
@@ -52,4 +53,5 @@
       <div class="text-red-500 font-bold text-4xl col-start-2 col-end-10 text-left py-2">
         현재 시각 : {{nowtime.hour}}시 {{nowtime.minute}}분
       </div>
+    </div>
 {% endblock %}
