@@ -15,15 +15,17 @@
         <div class="blockWrapper" onclick="chechk({{time}} ,'today')">
           {% for room in ['325', '326']%}
             {% for type in ['laundry','dry']%}
-              {% if {'time' : time, 'room' : room, 'type' : type} in todayReservations %}
-              {% if time < nowtime.hour %}
-              <div class="bg-gray-300"></div>
-              {% else %}
-              <div class="bg-yellow-300"></div>
-              {% endif %}
-              {% else %}
-              <div class="bg-white cursor-pointer"></div>
-              {% endif %}
+              {%for reserve in todayReservations %}
+                {% if reserve['time'] == time and reserve['room'] == room and reserve['type']==type %}
+                  {% if time < nowtime['hour'] %}
+                  <div class="bg-gray-300"></div>
+                  {% else %}
+                  <div class="bg-yellow-300"></div>
+                  {% endif %}
+                  {%break%}
+                {% endif %}
+                {%endfor%}
+                <div class="bg-white cursor-pointer"></div>
             {% endfor %}
           {% endfor %}
         </div>
