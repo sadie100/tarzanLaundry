@@ -31,13 +31,16 @@
   grid-template-columns: repeat(18, 100px);
 }
 .blockWrapper {
-  outline: 2px solid black;
+  border: 1.5px solid black;
   display: grid;
   grid-row-start : 1;
   grid-row-end:3;
   grid-template-rows: repeat(2, 50px);
   grid-template-columns: repeat(2, 50px);
   overflow:hidden;
+  gap:1px;
 }
 
-
+.picked {
+  border: 4px dashed red;
+}

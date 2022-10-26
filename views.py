@@ -1,8 +1,7 @@
 
 from cmath import sin
 from flask import Flask, jsonify, render_template, request, make_response, flash, redirect, url_for
-from datetime import datetime
-from flask_jwt_extended import JWTManager
+from datetime import datetime, date, timedelta
 from pymongo import MongoClient
 # 준철 
 from flask_jwt_extended import (
@@ -13,6 +12,10 @@ from flask_jwt_extended import (
 )
 
 app = Flask(__name__)
+
+# jinja2에서 break문 사용하기 위한 extension
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 
 app.config['JWT_SESSION_COOKIE'] = False
@@ -32,6 +35,7 @@ app.config["JWT_SECRET_KEY"] = "super-secret"
 jwt = JWTManager(app)
 
 
+from pymongo import MongoClient
 # db 이름은 laundryDB로 통일
 client = MongoClient('localhost',27017)
 db = client.laundryDB
@@ -40,40 +44,90 @@ db = client.laundryDB
 adminID = 'kjc08'
 adminPW = '0814'
 
-# 토큰 비밀 키
-# SUPER_SECRET_KEY = 'myNameIsJunCheol'
+def get_table():
+   today = date.today()
+   exactToday = datetime(today.year,today.month,today.day)
+   exactTomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
+   exactDat =  (datetime(today.year,today.month,today.day) + timedelta(days=2))
+
+   # data = db.reservations.aggregate([
+   #    {
+   #       '$match':{
+   #          'date':{
+   #             '$gte' : exactToday,
+   #             '$lt' : exactTomorrow
+   #          }
+   #       },
+   #    },
+   #    {
+   #       '$project':{
+   #          'user':1,
+   #          'type':1,
+   #          'room':1,
+   #          'certification':1,
+   #          'date':1,
+   #          'time':{
+   #             '$dateToString' : {
+   #                'format' : '%H',
+   #                'date' : '$date'
+   #             }
+   #          }
+   #       }
+   #    },
+   #    {
+   #       '$sort' : {
+   #          'time' : 1
+   #       }
+   #    }
+   # ])
+   todayReservations = list(db.reservations.find({
+      'date' : {'$gte' : exactToday, '$lt':exactTomorrow}
+   },{ '_id':0, 'user':1, 'type':1, 'room':1, 'date':1}).sort([['time',1]]))
+
+   for x in todayReservations:
+      x['time'] = x['date'].hour
+      del x['date']
+
+   tomorrowReservations = list(db.reservations.find({
+      'date' : {'$gte' : exactTomorrow, '$lt':exactDat}
+   }, { '_id':0, 'user':1, 'type':1, 'room':1, 'date':1}).sort([['time',1]]))
+
+   for x in tomorrowReservations:
+      x['time'] = x['date'].hour
+      del x['date']
+
+   return todayReservations,tomorrowReservations
 
 ## HTML을 주는 부분
 @app.route('/')
 def home():
-   # 만약 토큰이 존재하면. 또한 토큰에 저장된 내용이 데이터 베이스와 일치하면 로그인 페이지 보여주고,
-   # 유저 객체 리턴
-   todayReservations = [
-   { 'type' : 'laundry', 'room' : '325', 'day' : 10-29, 'time' : 7 },
-   { 'type' : 'dry', 'room' : '326',  'time' : 10,  },
-   { 'type' : 'laundry', 'room' : '325', 'time' : 11 },
-   { 'type' : 'laundry', 'room' : '325','time' : 11 },
-   { 'type' : 'dry', 'room': '325',  'time' : 11 },
-   { 'type' : 'laundry', 'room' : '325',  'time' : 12 },
-   { 'type' : 'laundry', 'room' : '325',  'time' : 14 },
-   { 'type' : 'dry', 'room' : '325',  'time' : 18 },
-   { 'type' : 'laundry', 'room' : '325',  'time' :20 ,'id': None},
-   { 'type' : 'dry', 'room' : '325',  'time': 22 ,'id':'kjc0000'}
-   ]
+   todayReservations, tomorrowReservations = get_table()
+  
+   # todayReservations = [
+   #    { 'type' : 'laundry', 'room' : '325', 'day' : 10-29, 'time' : 7 },
+   #    { 'type' : 'dry', 'room' : '326',  'time' : 10,  },
+   #    { 'type' : 'laundry', 'room' : '325', 'time' : 11 },
+   #    { 'type' : 'laundry', 'room' : '325','time' : 11 },
+   #    { 'type' : 'dry', 'room': '325',  'time' : 11 },
+   #    { 'type' : 'laundry', 'room' : '325',  'time' : 12 },
+   #    { 'type' : 'laundry', 'room' : '325',  'time' : 14 },
+   #    { 'type' : 'dry', 'room' : '325',  'time' : 18 },
+   #    { 'type' : 'laundry', 'room' : '325',  'time' :20 ,'id': None},
+   #    { 'type' : 'dry', 'room' : '325',  'time': 22 ,'id':'kjc0000'}
+   # ]
 
-   tomorrowReservations = [
-      { 'type' : 'laundry', 'room' : '325', 'time' : 7 },
-      { 'type' : 'dry', 'room' : '326',  'time' : 7,  },
-      { 'type' : 'laundry', 'room' : '325', 'time' : 8 },
-      { 'type' : 'laundry', 'room' : '326','time' : 15 },
-      { 'type' : 'dry', 'room': '326',  'time' : 14 },
-      { 'type' : 'laundry', 'room' : '325',  'time' : 16 },
-      { 'type' : 'laundry', 'room' : '326',  'time' : 16 },
-      { 'type' : 'dry', 'room' : '326',  'time' : 19 },
-      { 'type' : 'laundry', 'room' : '325',  'time' :19 },
-      { 'type' : 'dry', 'room' : '325',  'time': 21 }, 
-   ]
-
+   # tomorrowReservations = [
+   #    { 'type' : 'laundry', 'room' : '325', 'time' : 7 },
+   #    { 'type' : 'dry', 'room' : '326',  'time' : 7,  },
+   #    { 'type' : 'laundry', 'room' : '325', 'time' : 8 },
+   #    { 'type' : 'laundry', 'room' : '326','time' : 15 },
+   #    { 'type' : 'dry', 'room': '326',  'time' : 14 },
+   #    { 'type' : 'laundry', 'room' : '325',  'time' : 16 },
+   #    { 'type' : 'laundry', 'room' : '326',  'time' : 16 },
+   #    { 'type' : 'dry', 'room' : '326',  'time' : 19 },
+   #    { 'type' : 'laundry', 'room' : '325',  'time' :19 },
+   #    { 'type' : 'dry', 'room' : '325',  'time': 21 }, 
+   # ]
    nowtime = datetime.now()
    using = request.cookies.get('myapp_jwt')
    # 만약 로그인 했으면 해당 사용자의 id 값을 읽는다
