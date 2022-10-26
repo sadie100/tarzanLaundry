@@ -119,7 +119,6 @@ const pick = function (time, day, reservations) {
     }
 }
 
-
 const logOut = function() {
     fetch('/logout',
   {

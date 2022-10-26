@@ -122,7 +122,13 @@ def home():
    if using :
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userName = decodeInfo['이름']
-      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userName)
+
+      reservedata = db.reservations.find_one({'user':userName, 'date' : {'$gte' : nowtime}})
+      print(reservedata)
+      if(reservedata is not None):
+         return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userName, reservedata=reservedata)
+      else:   
+         return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userName)
    return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False)
 
 
