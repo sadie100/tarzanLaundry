@@ -94,7 +94,7 @@
         <div action="" class="flex items-end">
             <div class="relative flex  md:grid-cols-3 items-center">
                 <div>
-                    <p class="pr-5">" {{userId}} 님 환영합니니다! "</p>
+                    <p class="pr-5">" {{userName}} 님 환영합니니다! "</p>
                 </div>
                 <button type="button" onclick="logOut()" class="mr-1 bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded">로그아웃</button>
             </div>
@@ -111,12 +111,14 @@
     <div class="flex justify-center" id="detailWrapper">
         <!-- 좌측 하단 및 중앙 메세지와 버튼 -->
         <div class="mt-5 flex mr-7">
+            {% if using %}
             <div>
                 <p class="flex">예약 정보 : 24일 20~21시 (325호 왼쪽 세탁기)</p>
                 <br>
                 <p class="flex">내 예약 직전 세탁물 : 김철준 님 (524호)</p>
                 <br>
             </div>
+            {% endif %}
         </div>
         <!-- 우측 하단 상세 테이블 -->
         
