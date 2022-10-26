@@ -93,8 +93,9 @@ def home():
    if using :
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userName = decodeInfo['이름']
-      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userName)
-   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False)
+      userId = decodeInfo['sub']
+      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userId, userName=userName)
+   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False, userName=False)
 
 
 # 토큰 식별 과정 (토큰이 있어야 정상작동)
@@ -123,12 +124,13 @@ def login():
       if  input_pw == db.users.find_one({'user_id':input_id})['user_pw']:
 
          # 토큰에 추가할 추가 정보는 additional_claims 에 입력
+         my_name = db.users.find_one({'user_id':input_id})['user_name']
          additional_claims = {"이름":db.users.find_one({'user_id':input_id})['user_name'],"전화번호": db.users.find_one({'user_id':input_id})['user_phone']}
          # 로그인 성공 시 토큰 생성
          access_token = create_access_token(input_id, additional_claims=additional_claims)
          resp = make_response(redirect(url_for('home')))
          set_access_cookies(resp, access_token)
-         flash(f'{input_id}님 반갑습니다.{access_token}은(는) 당신의 토큰입니다!')
+         flash(f'{my_name}님 반갑습니다.')
          return resp
       else:
          flash('패스워드가 맞지 않습니다.')
@@ -160,13 +162,22 @@ def reserve():
    # 토큰 값 가져옴
    userId=False
    using = request.cookies.get('myapp_jwt')
+
+   today = date.today()
+   tomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
+   dateVal = date.today()
    # 만약 로그인 했으면 해당 사용자의 id 값을 읽는다
    if using :
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userId = decodeInfo['sub']
+
+      if db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day)},'user': userId, 'type': type}):
+         flash('더이상 예약하실 수 없습니다.')
+         print('중복 예약')
+         return jsonify({'state':'already'})
    else :
       # 에러 뱉기
-      abort(401)
+      return jsonify({'state':'logout'})
 
    today = date.today()
    tomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
