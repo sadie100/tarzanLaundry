@@ -1,5 +1,14 @@
-const handleReserve = (type,room) => {
-    console.log(type,room)
+const handleReserve = (time, day, type, room) => {
+    fetch('/reserve',{
+        method : 'POST',
+        body : {
+            time, day, type, room
+        }
+    }).then((res)=>{
+        console.log(res)
+    }).catch((e)=>{
+        console.log(e);
+    })
 }
 
 
@@ -34,7 +43,7 @@ const pick = function (time, day, reservations) {
             }else{
                 //예약없음. 예약 가능상태
                 document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center'
-                document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="handleReserve(${type, room})">예약하기</button>`;
+                document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="handleReserve('${time}','${day}','${type.toLowerCase()}', '${room}')">예약하기</button>`;
             }
         }
     }

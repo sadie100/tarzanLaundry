@@ -189,6 +189,9 @@ def logout():
 
    return response
 
+@app.route('/reserve', methods=['POST'])
+def reserve():
+   print('ddd')
 
 if __name__ == '__main__': 
    # 시크릿 키 설정이 되어있지 않으면 submit 액션에서 보안오류 발생.
