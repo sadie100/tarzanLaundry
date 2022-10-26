@@ -1,13 +1,26 @@
+let flag = false;
+
 const handleReserve = (time, day, type, room) => {
     fetch('/reserve',{
         method : 'POST',
-        body : {
+        headers: {
+            'Content-Type': 'application/json',
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        body : JSON.stringify({
             time, day, type, room
-        }
+        })
     }).then((res)=>{
-        console.log(res)
+        console.log(res);
+        if(res.status===200){
+            alert('예약이 완료되었습니다.');
+            window.location.reload()
+        }else if(res.status===404){
+            return alert('로그인 정보가 없습니다. 로그인을 해 주세요.')
+        }
     }).catch((e)=>{
         console.log(e);
+        alert('에러가 일어났습니다.')
     })
 }
 
@@ -29,6 +42,63 @@ const pick = function (time, day, reservations) {
     //들어온 reservations에서 day, time에 해당하는 예약 있는지 확인
     //day는 reservations를 가져올 때 해당하는 걸 주므로 확인 안해도 됨
     const pickedReserve = reservations.filter(({time:obTime})=> time === obTime );
+
+    //만약 timeTableDetail id element가 없다면 아예 박스를 새로 만들어야 하고, 아니라면 내부요소만 바꾸면 됨
+    //상황을 나눈다.
+    if(!document.getElementById('timeTableDetail')){
+         //picked가 처음 눌린 상황 => element 전체 만들어야 함
+         document.getElementById('detailWrapper').insertAdjacentHTML('beforeend',`<div id="timeTableDetail" class="flex flex-col w-48 h-64 border border-indigo-600"> 
+         <div class="flex w-full justify-evenly h-1/2 items-center text-sm">
+             <div id="detailLaundry325" class="flex justify-evenly w-full h-full flex-col items-center">
+                 <div>
+                     325
+                 </div>
+                 <div>
+                     세탁기
+                 </div>
+                 <div id="detailLaundry325Bottom">
+                     <button type="button" class=" ml-auto bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded ">예약하기</button>
+                 </div>
+             </div>
+             <div id="detailLaundry326" class="flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white	">
+                 <div>
+                     326
+                 </div>
+                 <div>
+                     세탁기
+                 </div>
+                 <div id="detailLaundry326Bottom">
+                     예약완료
+                 </div>
+             </div>
+         </div>
+         <div class="flex w-full justify-evenly h-1/2 items-center text-sm">
+             <div id="detailDry325" class="flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white	">
+                 <div>
+                     325
+                 </div>
+                 <div>
+                     건조기
+                 </div>
+                 <div id="detailDry325Bottom">
+                     예약완료
+                 </div>
+             </div>
+             <div id="detailDry326" class="flex justify-evenly w-full h-full flex-col items-center ">
+                 <div>
+                     326
+                 </div>
+                 <div>
+                     건조기
+                 </div>
+                 <div id="detailDry326Bottom">
+                     <button type="button" class=" ml-auto bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded ">예약하기</button>
+                 </div>
+             </div>
+         </div>
+     </div>`)
+        
+    }
 
     //pickedReserve 결과에 따라 선택박스 채워야 함
     //만약 laundry면 위쪽 박스에서 room 호수에 따라 첫번째/두번째 엘리먼트 선택
