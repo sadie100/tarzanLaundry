@@ -87,13 +87,13 @@
               {% if reserve['type'] == 'laundry' %}
                 {% if reserve['room'] == '325' %}
                   {% if reserve['user'] == userId%}
-                    <div class="bg-green-500 row-start-1 col-start-1 text-white font-bold break-keep">내 예약</div>
+                    <div class="bg-green-500 row-start-1 leading-6 col-start-1 text-white text-lg font-bold break-keep">내 예약</div>
                   {% else %}
                     <div class="bg-yellow-300 row-start-1 col-start-1"></div>
                   {% endif%}
                 {% else %}
                   {% if reserve['user'] == userId%}
-                    <div class="bg-green-500 row-start-1 col-start-2 text-white font-bold break-keep">내 예약</div>
+                    <div class="bg-green-500 row-start-1 leading-6 col-start-2 text-white text-lg font-bold break-keep">내 예약</div>
                   {% else %}
                     <div class="bg-yellow-300 row-start-1 col-start-2"></div>
                   {% endif%}
@@ -101,13 +101,13 @@
               {% else %}
                 {% if reserve['room'] == '325' %}
                   {% if reserve['user'] == userId%}
-                    <div class="bg-green-500 row-start-2 col-start-1 text-white font-bold break-keep">내 예약</div>
+                    <div class="bg-green-500 row-start-2 leading-6 col-start-1 text-white text-lg font-bold break-keep">내 예약</div>
                   {% else %}
                     <div class="bg-yellow-300 row-start-2 col-start-1"></div>
                   {% endif%}
                 {% else %}
                   {% if reserve['user'] == userId%}
-                    <div class="bg-green-500 row-start-2 col-start-2 text-white font-bold break-keep">내 예약</div>
+                    <div class="bg-green-500 row-start-2 leading-6 col-start-2 text-white text-lg font-bold break-keep">내 예약</div>
                   {% else %}
                     <div class="bg-yellow-300 row-start-2 col-start-2"></div>
                   {% endif%}
