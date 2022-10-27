@@ -24,8 +24,8 @@ function signupRegister(){
         (res)=>{
             console.log(res['url']);
             // 해당 도메인 입력 필수
-            // if(res['url'] == 'http://jglaundry.shop/'){      //서버 업로드
-            if(res['url'] == 'http://127.0.0.1:5000'){         //로컬 테스트
+            if(res['url'] == 'http://jglaundry.shop/'){      //서버 업로드
+            // if(res['url'] == 'http://127.0.0.1:5000'){         //로컬 테스트
                 window.location.href = '/'
             }
             else{
