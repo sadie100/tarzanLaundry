@@ -73,8 +73,8 @@ const pick = function (time, day, reservations, loginId) {
     //상황을 나눈다.
     if(!document.getElementById('timeTableDetail')){
          //picked가 처음 눌린 상황 => element 전체 만들어야 함
-         document.getElementById('detailWrapper').insertAdjacentHTML('beforeend',`<div id="timeTableDetail" class="flex flex-col w-48 h-64 border border-indigo-600"> 
-         <div class="flex w-full justify-evenly h-1/2 items-center text-sm">
+         document.getElementById('detailWrapper').insertAdjacentHTML('beforeend',`<div id="timeTableDetail" class="flex flex-col w-48 h-64 border border-2 border-gray-500 rounded-md"> 
+         <div class="flex w-full justify-evenly h-1/2 items-center text-sm ">
              <div id="detailLaundry325" class="flex justify-evenly w-full h-full flex-col items-center">
                  <div>
                      325
@@ -136,16 +136,16 @@ const pick = function (time, day, reservations, loginId) {
                 //예약있음. 예약 불가능상태
 
                 if(!loginId){
-                    document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white'
+                    document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center rounded-lg bg-amber-400 text-white'
                     document.getElementById(`detail${type}${room}Bottom`).innerHTML = '예약완료';
                 }else{
                     //로그인 있으면 내 예약인지 아닌지 한번 확인하기
                     const {user} = pickedReserve.find(({ type:etype, room:eroom})=>{return etype.toLowerCase() === type.toLowerCase() && eroom === room});
                     if(user.toString() === loginId.toString()){
-                        document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-green-500 text-white'
-                        document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="handleCancel('${time}','${day}','${type.toLowerCase()}', '${room}')">예약 취소</button>`;
+                        document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center rounded-lg bg-green-500 text-white'
+                        document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-amber-500 hover:bg-amber-700 text-white text-s font-bold py-2 px-2.5 rounded" onclick="handleCancel('${time}','${day}','${type.toLowerCase()}', '${room}')">예약 취소</button>`;
                     }else{
-                        document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-amber-400 text-white'
+                        document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center rounded-lg bg-amber-400 text-white'
                         document.getElementById(`detail${type}${room}Bottom`).innerHTML = '예약완료';
                     }
                 }
@@ -153,12 +153,11 @@ const pick = function (time, day, reservations, loginId) {
             }else{
                 //예약없음. 예약 가능상태
                 document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center'
-                document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="handleReserve('${time}','${day}','${type.toLowerCase()}', '${room}')">예약하기</button>`;
+                document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-blue-500 hover:bg-blue-700 text-white text-s font-bold py-2 px-2.5 rounded" onclick="handleReserve('${time}','${day}','${type.toLowerCase()}', '${room}')">예약하기</button>`;
             }
         }
     }
 }
-
 
 const logOut = function() {
     fetch('/logout',
