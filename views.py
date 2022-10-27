@@ -38,7 +38,7 @@ jwt = JWTManager(app)
 from pymongo import MongoClient
 
 # db 이름은 laundryDB로 통일
-client = MongoClient('localhost',27017)
+client = MongoClient('mongodb://tarzan:jane@0.0.0.0',27017)
 db = client.laundryDB
 
 
@@ -93,14 +93,15 @@ def home():
    if using :
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userName = decodeInfo['이름']
+      userId = decodeInfo['sub']
 
-      reservedata = db.reservations.find_one({'user':userName, 'date' : {'$gte' : nowtime}})
-      print(reservedata)
-      if(reservedata is not None):
-         return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userName, reservedata=reservedata)
-      else:   
-         return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userName)
-   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False)
+      today = date.today()
+      myLaundry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day,int(nowtime.hour))},'user': userId, 'type': 'laundry'})
+
+      myDry = db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day,int(nowtime.hour))},'user': userId, 'type': 'dry'})
+
+      return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=userId, userName=userName, myLaundry=myLaundry, myDry=myDry)
+   return render_template('table.html', todayReservations=todayReservations,tomorrowReservations=tomorrowReservations, nowtime=nowtime, using=using, userId=False, userName=False,  myLaundry=False, myDry=False)
 
 
 # 토큰 식별 과정 (토큰이 있어야 정상작동)
@@ -129,12 +130,13 @@ def login():
       if  input_pw == db.users.find_one({'user_id':input_id})['user_pw']:
 
          # 토큰에 추가할 추가 정보는 additional_claims 에 입력
+         my_name = db.users.find_one({'user_id':input_id})['user_name']
          additional_claims = {"이름":db.users.find_one({'user_id':input_id})['user_name'],"전화번호": db.users.find_one({'user_id':input_id})['user_phone']}
          # 로그인 성공 시 토큰 생성
          access_token = create_access_token(input_id, additional_claims=additional_claims)
          resp = make_response(redirect(url_for('home')))
          set_access_cookies(resp, access_token)
-         flash(f'{input_id}님 반갑습니다.{access_token}은(는) 당신의 토큰입니다!')
+         flash(f'{my_name}님 반갑습니다.')
          return resp
       else:
          flash('패스워드가 맞지 않습니다.')
@@ -166,13 +168,23 @@ def reserve():
    # 토큰 값 가져옴
    userId=False
    using = request.cookies.get('myapp_jwt')
+
+   nowtime = datetime.now()
+   today = date.today()
+   tomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
+   dateVal = date.today()
    # 만약 로그인 했으면 해당 사용자의 id 값을 읽는다
    if using :
       decodeInfo = decode_token(request.cookies.get('myapp_jwt'))
       userId = decodeInfo['sub']
+
+      if db.reservations.find_one({'date' : {'$gte' : datetime(today.year,today.month,today.day,int(nowtime.hour))},'user': userId, 'type': type}):
+         flash('더이상 예약하실 수 없습니다.')
+         print('중복 예약')
+         return jsonify({'state':'already'})
    else :
       # 에러 뱉기
-      abort(401)
+      return abort(401)
 
    today = date.today()
    tomorrow = (datetime(today.year,today.month,today.day) + timedelta(days=1))
@@ -293,4 +305,4 @@ if __name__ == '__main__':
    # 시크릿 키 설정이 되어있지 않으면 submit 액션에서 보안오류 발생.
    app.secret_key = "super-secret"
    # app.config['SESSION_TYPE'] = 'filesystem'
-   app.run(debug=True)
+   app.run('0.0.0.0', port=5000,debug=True)

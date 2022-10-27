@@ -12,7 +12,7 @@ const handleReserve = (time, day, type, room) => {
     }).then((res)=>{
         console.log(res);
         if(res.status===200){
-            alert('예약이 완료되었습니다.');
+            alert('예약을 진행합니다.');
             window.location.reload()
         }else if(res.status===401){
             return alert('로그인 정보가 없습니다. 로그인을 해 주세요.')
@@ -42,7 +42,7 @@ const handleCancel = (time, day, type, room) => {
         }else if(res.status===401){
             return alert('로그인 정보가 없습니다. 로그인을 해 주세요.')
         }else if(res.status === 404){
-            return alert('예약 정보가 없습니다.')
+            return alert('권한이 없습니다.')
         }
     }).catch((e)=>{
         console.log(e);
@@ -141,7 +141,7 @@ const pick = function (time, day, reservations, loginId) {
                 }else{
                     //로그인 있으면 내 예약인지 아닌지 한번 확인하기
                     const {user} = pickedReserve.find(({ type:etype, room:eroom})=>{return etype.toLowerCase() === type.toLowerCase() && eroom === room});
-                    if(typeof user === 'string' ? user : user.toString() === loginId.toString()){
+                    if(user.toString() === loginId.toString()){
                         document.getElementById(`detail${type}${room}`).className = 'flex justify-evenly w-full h-full flex-col items-center bg-green-500 text-white'
                         document.getElementById(`detail${type}${room}Bottom`).innerHTML = `<button type="button" class="ml-auto bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="handleCancel('${time}','${day}','${type.toLowerCase()}', '${room}')">예약 취소</button>`;
                     }else{
