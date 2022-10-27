@@ -51,12 +51,12 @@
     <div class="flex justify-between w-full">
         <!-- 로고 -->
         <div class="relative flex ">
-            <img src="../static/Jungle_laundry.png" alt="타탁탁" class="w-20">
-            <div class="flex flex-wrap">
-                <div class="flex mt-auto items-end"><p class=" text-red-700 text-2xl font-bold">타</p><p>잔,&nbsp</p></div>
+            <img src="../static/Jungle_laundry.png" alt="타탁탁" class="w-32">
+            <div class="flex flex-wrap text-xl mb-5 font-bold">
+                <div class="flex mt-auto items-end"><p class=" text-red-700 text-3xl font-bold">타</p><p>잔,&nbsp</p></div>
                 <div class="flex mt-auto items-end flex-wrap">
-                    <div class="flex mt-auto items-end">세<p class=" text-red-700 text-2xl font-bold">탁</p>을&nbsp</div>
-                    <div class="flex mt-auto items-end">부<p class=" text-red-700 text-2xl font-bold">탁</p>해</div>
+                    <div class="flex mt-auto items-end">세<p class=" text-red-700 text-3xl font-bold">탁</p>을&nbsp</div>
+                    <div class="flex mt-auto items-end">부<p class=" text-red-700 text-3xl font-bold">탁</p>해</div>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@
                     <label for="input_password" class="absolute text-xs text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-3 scale-75 top-1 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-1 peer-focus:scale-75 peer-focus:-translate-y-3 left-1"> password</label>
                 </div>
                 <button type="submit" class="mr-2 bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold py-2 px-2.5 rounded">로그인</button>
-                <button type="button" class="mr-1 bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="window.location.href='/jungler_test'">회원가입</button>
+                <button type="button" class="mr-10 bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded" onclick="window.location.href='/jungler_test'">회원가입</button>
             </div>
         </form>
     </div>
@@ -81,12 +81,12 @@
     <div class="flex justify-between w-full">
         <!-- 로고 -->
         <div class="relative flex ">
-            <img src="../static/Jungle_laundry.png" alt="타탁탁" class="w-20">
-            <div class="flex flex-wrap">
-                <div class="flex mt-auto items-end"><p class=" text-red-700 text-2xl font-bold">타</p><p>잔,&nbsp</p></div>
+            <img src="../static/Jungle_laundry.png" alt="타탁탁" class="w-32">
+            <div class="flex flex-wrap text-xl mb-5 font-bold">
+                <div class="flex mt-auto items-end"><p class=" text-red-700 text-3xl font-bold">타</p><p>잔,&nbsp</p></div>
                 <div class="flex mt-auto items-end flex-wrap">
-                    <div class="flex mt-auto items-end">세<p class=" text-red-700 text-2xl font-bold">탁</p>을&nbsp</div>
-                    <div class="flex mt-auto items-end">부<p class=" text-red-700 text-2xl font-bold">탁</p>해</div>
+                    <div class="flex mt-auto items-end">세<p class=" text-red-700 text-3xl font-bold">탁</p>을&nbsp</div>
+                    <div class="flex mt-auto items-end">부<p class=" text-red-700 text-3xl font-bold">탁</p>해</div>
                 </div>
             </div>
         </div>
@@ -94,9 +94,9 @@
         <div action="" class="flex items-end">
             <div class="relative flex  md:grid-cols-3 items-center">
                 <div>
-                    <p class="pr-5">" {{userName}} 님 환영합니다! "</p>
+                    <p class="pr-5">" <a class = "font-bold text-lg">{{userName}}</a> 님 환영합니다! "</p>
                 </div>
-                <button type="button" onclick="logOut()" class="mr-1 bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded">로그아웃</button>
+                <button type="button" onclick="logOut()" class="mr-10 bg-amber-500 hover:bg-amber-700 text-white text-xs font-bold py-2 px-2.5 rounded">로그아웃</button>
             </div>
         </div>
     </div>
@@ -114,11 +114,11 @@
             {% if using %}
             <div>
                 {% if myLaundry %}
-                <p class="flex text-xl text-slate-500 font-bold">나의 세탁기 예약 : {{myLaundry['date'].day}}일 {{myLaundry['date'].hour}}시, {{myLaundry['room']}}호</p>
+                <p class="flex text-3xl text-slate-500 font-bold">나의 세탁기 예약 : {{myLaundry['date'].day}}일 {{myLaundry['date'].hour}}시, {{myLaundry['room']}}호</p>
                 {% endif %}
                 <br>
                 {% if myDry %}
-                <p class="flex text-xl text-slate-500 font-bold">나의 건조기 예약 : {{myDry['date'].day}}일 {{myDry['date'].hour}}시, {{myDry['room']}}호</p>
+                <p class="flex text-3xl text-slate-500 font-bold">나의 건조기 예약 : {{myDry['date'].day}}일 {{myDry['date'].hour}}시, {{myDry['room']}}호</p>
                 {% endif %}
                 <br>
             </div>

@@ -39,7 +39,7 @@ from pymongo import MongoClient
 
 # db 이름은 laundryDB로 통일
 # client = MongoClient('mongodb://tarzan:jane@0.0.0.0',27017)   #서버 업로드
-client = MongoClient('127.0.0.1',27017)    #로컬 테스트
+client = MongoClient('localhost',27017)                        #로컬 테스트
 db = client.laundryDB
 
 

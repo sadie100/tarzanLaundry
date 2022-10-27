@@ -3,7 +3,7 @@
 
 {% block table %}
   <div id="timeTable" class="relative">
-     <div class="timeTable text-center w-9/12 font-bold">
+     <div class="timeTable text-center w-9/12 font-bold text-2xl">
       <div class="timeColumn">시간</div>
       {% for i in range(6,24) %} {%if nowtime.hour == i%}
       <div class="timeColumn text-red-500">{{i}}시</div>
@@ -44,13 +44,13 @@
               {% if reserve['type'] == 'laundry' %}
                 {% if reserve['room'] == '325' %}
                   {% if reserve['user'] == userId%}
-                    <div class="bg-green-500 row-start-1 col-start-1 text-white font-bold break-keep">내 예약</div>
+                    <div class="bg-green-500 row-start-1 leading-6 col-start-1 text-white text-lg font-bold break-keep">내 예약</div>
                   {% else %}
                     <div class="bg-yellow-300 row-start-1 col-start-1"></div>
                   {% endif%}
                 {% else %}
                   {% if reserve['user'] == userId%}
-                    <div class="bg-green-500 row-start-1 col-start-2 text-white font-bold break-keep">내 예약</div>
+                    <div class="bg-green-500 row-start-1 leading-6 col-start-2 text-white text-lg font-bold break-keep">내 예약</div>
                   {% else %}
                     <div class="bg-yellow-300 row-start-1 col-start-2"></div>
                   {% endif%}
@@ -58,13 +58,13 @@
               {% else %}
                 {% if reserve['room'] == '325' %}
                   {% if reserve['user'] == userId%}
-                    <div class="bg-green-500 row-start-2 col-start-1  text-white font-bold break-keep">내 예약</div>
+                    <div class="bg-green-500 row-start-2 leading-6 col-start-1  text-white text-lg font-bold break-keep">내 예약</div>
                   {% else %}
                     <div class="bg-yellow-300 row-start-2 col-start-1"></div>
                   {% endif%}
                 {% else %}
                   {% if reserve['user'] == userId%}
-                    <div class="bg-green-500 row-start-2 col-start-2 text-white font-bold break-keep">내 예약</div>
+                    <div class="bg-green-500 row-start-2 leading-6 col-start-2 text-white text-lg font-bold break-keep">내 예약</div>
                   {% else %}
                     <div class="bg-yellow-300 row-start-2 col-start-2"></div>
                   {% endif%}
@@ -121,7 +121,7 @@
         </div>
         {% endfor %}
       </div>
-      <div class="text-red-500 font-bold text-4xl col-start-2 col-end-10 text-left py-2">
+      <div class="text-red-500 font-bold text-3xl col-start-2 col-end-10 text-left py-2">
         현재 시각 : {{nowtime.hour}}시 {{nowtime.minute}}분
       </div>
     </div>
