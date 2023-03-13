@@ -1,7 +1,7 @@
 # 타잔, 세탁을 부탁해
 
 [Team4_타잔_세탁을부탁해.pdf](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d36e28b6-6895-4712-b606-b4adca25fecb/Team4_%ED%83%80%EC%9E%94_%EC%84%B8%ED%83%81%EC%9D%84%EB%B6%80%ED%83%81%ED%95%B4.pdf)
-
+[http://jglaundry.shop/]
 ## 기획 의도
 
 - 타잔, 세탁을 부탁해는 크래프톤 정글 시설 내 공용 세탁기의 효율적인 운영을 위해 기획한 **세탁기 예약 시스템**입니다.
