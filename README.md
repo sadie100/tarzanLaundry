@@ -1,6 +1,6 @@
 # 타잔, 세탁을 부탁해
 
-[Team4_타잔_세탁을부탁해.pdf](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d36e28b6-6895-4712-b606-b4adca25fecb/Team4_%ED%83%80%EC%9E%94_%EC%84%B8%ED%83%81%EC%9D%84%EB%B6%80%ED%83%81%ED%95%B4.pdf)
+[Team4_타잔_세탁을부탁해.pdf](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d36e28b6-6895-4712-b606-b4adca25fecb/Team4_%ED%83%80%EC%9E%94_%EC%84%B8%ED%83%81%EC%9D%84%EB%B6%80%ED%83%81%ED%95%B4.pdf)<br>
 [웹페이지](http://jglaundry.shop/)
 ## 기획 의도
 
