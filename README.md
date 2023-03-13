@@ -25,3 +25,19 @@
 <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon EC2&logoColor=black"/>
 <img src="https://img.shields.io/badge/Tailwind CSS-06B6D4?style=for-the-badge&logo=tailwind css&logoColor=black"/>
 </p>
+
+## 해당내용 수정예정
+```mermaid
+graph LR
+A[Square Rect] -- Link text --> B((Circle))
+A --> C(Round Rect)
+B --> D{Rhombus}
+C --> D
+```
+
+```mermaid
+sequenceDiagram
+Client -->> Server: Initial Request
+Server --> Database: Validation
+Database -->> Client: Return Result
+```
