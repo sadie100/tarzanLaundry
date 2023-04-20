@@ -15,7 +15,7 @@
 - 내 예약 조회 기능
 
 ## 사용 기술 스택
-https://user-images.githubusercontent.com/20960260/233394021-42d83597-6432-40c4-839f-ea65b6f2c77d.png
+<img src="https://user-images.githubusercontent.com/20960260/233394021-42d83597-6432-40c4-839f-ea65b6f2c77d.png">
 <p align="center" display="inline-block">
 <img src="https://img.shields.io/badge/html-D35836?style=for-the-badge&logo=html&logoColor=47A248">
 <img src="https://img.shields.io/badge/css-2565F1?style=for-the-badge&logo=css&logoColor=47A248">
